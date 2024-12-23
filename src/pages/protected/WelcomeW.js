@@ -37,7 +37,7 @@ function ManagerWelcomePage() {
     {/* Title Section */}
 <div className="text-center mb-8">
   <h1 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-snug">
-     <span className="text-black-600">Welcome Admin</span>
+     <span className="text-black-600">Welcome Worker</span>
   </h1>
   <p className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 mt-2">
     <span className="font-extrabold text-yellow-600">To the Hecht Museum Management System</span>
@@ -60,33 +60,14 @@ function ManagerWelcomePage() {
         </section>
 
         {/* Manager Features Section */}
-<section className="mb-8">
-  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-    What Can You Do as Admin?
-  </h2>
-  <ul className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed list-disc list-inside">
-    <li>
-      <strong>Add New Paintings:</strong> Easily integrate new artworks into the automated adjustment system.
-    </li>
-    <li>
-      <strong>Edit Artwork Details:</strong> Update dimensions, accessibility settings, or other information for paintings.
-    </li>
-    <li>
-      <strong>Delete Paintings:</strong> Remove artworks that are no longer in the system.
-    </li>
-    <li>
-      <strong>View Analysis:</strong> Access detailed data, including:
-      <ul className="list-disc pl-6">
-        <li>Viewing times for each painting.</li>
-        <li>Visitor engagement trends.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Enlarge Artwork Photos:</strong> Click on any painting's photo to open a larger, detailed view in a modal.
-    </li>
-  </ul>
-</section>
-
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">What Can You Do as Worker?</h2>
+          <ul className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed list-disc list-inside">
+            <li><strong>Add New Paintings:</strong> Easily integrate new artworks into the automated adjustment system.</li>
+            <li><strong>Edit Artwork Details:</strong> Update dimensions, accessibility settings, or other information for paintings.</li>
+            <li><strong>Delete Paintings:</strong> Remove artworks that are no longer in the system.</li>
+          </ul>
+        </section>
 
         {/* Help Section */}
         <section className="mb-8">
@@ -96,7 +77,6 @@ function ManagerWelcomePage() {
           </p>
           <ul className="list-disc list-inside pl-4 text-gray-700 dark:text-gray-300">
             <li>Step-by-step instructions for adding, editing, or deleting paintings.</li>
-            <li>How to access and interpret analysis reports.</li>
             
           </ul>
         </section>
@@ -104,7 +84,7 @@ function ManagerWelcomePage() {
         {/* Call to Action */}
         <div className="text-center">
           <p className="text-lg text-gray-700 dark:text-gray-300 italic font-semibold mb-4">
-          "Manage and analyze effortlessly. Click on a section to get started!"
+            "Manage effortlessly. Click on a section to get started!"
           </p>
         </div>
       </div>

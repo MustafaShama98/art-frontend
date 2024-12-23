@@ -33,7 +33,7 @@ import {
     };
 
     // Filter and aggregate total views within the selected date range
-    const labels = data.map(item => ` ${item.name}`); // Painting names
+    const labels = data.map(item => `Painting ${item.sys_id}`); // Painting names
     const totalViews = data.map(item => {
         // Filter `dailyStats` by selected date range
         const filteredStats = item.dailyStats.filter(stat => {

@@ -1,117 +1,135 @@
-import { themeChange } from 'theme-change'
-import React, {  useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import BellIcon  from '@heroicons/react/24/outline/BellIcon'
-import Bars3Icon  from '@heroicons/react/24/outline/Bars3Icon'
-import MoonIcon from '@heroicons/react/24/outline/MoonIcon'
-import SunIcon from '@heroicons/react/24/outline/SunIcon'
-import { openRightDrawer } from '../features/common/rightDrawerSlice';
-import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
+import { themeChange } from "theme-change";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import BellIcon from "@heroicons/react/24/outline/BellIcon";
+import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
+import { useNavigate } from "react-router-dom";
+import MoonIcon from "@heroicons/react/24/outline/MoonIcon";
+import SunIcon from "@heroicons/react/24/outline/SunIcon";
+import { openRightDrawer } from "../features/common/rightDrawerSlice";
+import { RIGHT_DRAWER_TYPES } from "../utils/globalConstantUtil";
 
-import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
+function Header() {
+  const dispatch = useDispatch();
+  const { noOfNotifications, pageTitle } = useSelector((state) => state.header);
+  const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"));
+  const [username, setUsername] = useState(""); // State to hold username
+  const nav = useNavigate();
 
+  useEffect(() => {
+    // Initialize themeChange and username on component mount
+    themeChange(false);
 
-function Header(){
-
-    const dispatch = useDispatch()
-    const {noOfNotifications, pageTitle} = useSelector(state => state.header)
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
-
-    useEffect(() => {
-        themeChange(false)
-        if(currentTheme === null){
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
-                setCurrentTheme("dark")
-            }else{
-                setCurrentTheme("light")
-            }
-        }
-        // 👆 false parameter is required for react project
-      }, [])
-
-
-    // Opening right sidebar for notification
-    const openNotification = () => {
-        dispatch(openRightDrawer({header : "Notifications", bodyType : RIGHT_DRAWER_TYPES.NOTIFICATION}))
+    // Set theme if not present in localStorage
+    if (currentTheme === null) {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setCurrentTheme(prefersDark ? "dark" : "light");
     }
 
-
-    function logoutUser(){
-        localStorage.clear();
-        window.location.href = '/'
+    // Retrieve username from localStorage
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUsername(parsedUser.username || "User");
     }
+  }, [currentTheme]);
 
-    return(
-        // navbar fixed  flex-none justify-between bg-base-300  z-10 shadow-md
-        
-        <>
-            <div className="navbar sticky top-0 bg-base-100  z-10 shadow-md ">
+  // Handle theme change
+  const toggleTheme = () => {
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+    setCurrentTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
 
+  // Open notifications
+  const openNotification = () => {
+    dispatch(
+      openRightDrawer({ header: "Notifications", bodyType: RIGHT_DRAWER_TYPES.NOTIFICATION })
+    );
+  };
 
-                {/* Menu toogle for mobile view or small screen */}
-                <div className="flex-1">
-                    <label htmlFor="left-sidebar-drawer" className="btn btn-primary drawer-button lg:hidden">
-                    <Bars3Icon className="h-5 inline-block w-5"/></label>
-                    <h1 className="text-2xl font-semibold ml-2">{pageTitle}</h1>
-                </div>
+  // Logout function
+  const logoutUser = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    nav("/");
+  };
 
-                
+  return (
+    <>
+      <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md">
+        {/* Menu Toggle for Mobile View */}
+        <div className="flex-1">
+          <label htmlFor="left-sidebar-drawer" className="btn btn-primary drawer-button lg:hidden">
+            <Bars3Icon className="h-5 w-5" />
+          </label>
+          <h1 className="text-2xl font-semibold ml-2">{pageTitle}</h1>
+        </div>
 
-            <div className="flex-none ">
+        {/* Right-Side Elements */}
+        <div className="flex-none flex items-center gap-4">
+            {/* Light/Dark Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="btn btn-ghost btn-circle hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            {currentTheme === "dark" ? (
+              <MoonIcon className="h-6 w-6 text-gray-400" />
+            ) : (
+              <SunIcon className="h-6 w-6 text-yellow-500" />
+            )}
+          </button>
+          {/* Notification Bell */}
+         {/*
+          <button
+            className="btn btn-ghost btn-circle hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={openNotification}
+          >
+            <BellIcon className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+            {noOfNotifications > 0 && (
+              <span className="badge badge-sm badge-primary">{noOfNotifications}</span>
+            )}
+          </button>*/}
 
-                {/* Multiple theme selection, uncomment this if you want to enable multiple themes selection, 
-                also includes corporate and retro themes in tailwind.config file */}
-                
-                {/* <select className="select select-sm mr-4" data-choose-theme>
-                    <option disabled selected>Theme</option>
-                    <option value="light">Default</option>
-                    <option value="dark">Dark</option>
-                    <option value="corporate">Corporate</option>
-                    <option value="retro">Retro</option>
-                </select> */}
-
-
-            {/* Light and dark theme selection toogle **/}
-            <label className="swap ">
-                <input type="checkbox"/>
-                <SunIcon data-set-theme="light" data-act-class="ACTIVECLASS" className={"fill-current w-6 h-6 "+(currentTheme === "dark" ? "swap-on" : "swap-off")}/>
-                <MoonIcon data-set-theme="dark" data-act-class="ACTIVECLASS" className={"fill-current w-6 h-6 "+(currentTheme === "light" ? "swap-on" : "swap-off")} />
+          {/* Profile Dropdown */}
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+                {/* Simple User Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 64 64"
+                  className="h-6 w-6 text-gray-600 dark:text-gray-300"
+                  fill="currentColor"
+                >
+                  <path d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30 30-13.432 30-30S48.568 2 32 2zm0 8c6.6 0 12 5.4 12 12s-5.4 12-12 12-12-5.4-12-12 5.4-12 12-12zm0 44c-7.912 0-14.86-4.064-18.967-10.246 1.485-5.682 11.334-8.754 18.967-8.754s17.482 3.072 18.967 8.754C46.86 49.936 39.912 54 32 54z" />
+                </svg>
+              </div>
             </label>
-
-
-                {/* Notification icon */}
-                <button className="btn btn-ghost ml-4  btn-circle" onClick={() => openNotification()}>
-                    <div className="indicator">
-                        <BellIcon className="h-6 w-6"/>
-                        {noOfNotifications > 0 ? <span className="indicator-item badge badge-secondary badge-sm">{noOfNotifications}</span> : null }
-                    </div>
-                </button>
-
-
-                {/* Profile icon, opening menu on click */}
-                <div className="dropdown dropdown-end ml-4">
-                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                        <img src="https://placeimg.com/80/80/people" alt="profile" />
-                        </div>
-                    </label>
-                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li className="justify-between">
-                        <Link to={'/app/settings-profile'}>
-                            Profile Settings
-                            <span className="badge">New</span>
-                            </Link>
-                        </li>
-                        <li className=''><Link to={'/app/settings-billing'}>Bill History</Link></li>
-                        <div className="divider mt-0 mb-0"></div>
-                        <li><a onClick={logoutUser}>Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            </div>
-
-        </>
-    )
+            <ul
+              tabIndex={0}
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow-lg bg-white dark:bg-gray-800 rounded-lg w-52"
+            >
+              <li>
+                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Hello, {username}
+                </span>
+              </li>
+              <div className="divider my-1"></div>
+              <li>
+                <a
+                  onClick={logoutUser}
+                  className="text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-800 rounded-md cursor-pointer"
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Header
+export default Header;
