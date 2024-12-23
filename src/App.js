@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { themeChange } from 'theme-change';
 import initializeApp from './app/init';
 import RequireAuth from './auth/RequireAuth';
+import MyComponent from "./utils/MyComponent";
 // Importing pages
 const Layout = lazy(() => import('./containers/Layout'));
 const Login = lazy(() => import('./pages/Login'));
@@ -30,7 +31,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Login />} />
-          
+          <Route path="/web" element={<MyComponent />} />
+
 
 
           <Route element={<RequireAuth allowedRoles={['admin']}/> } >
