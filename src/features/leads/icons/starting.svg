@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Starting</title>
+    <g id="Starting" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Actions-/-Navigation-/-close--filled-/-16-Copy-2" transform="translate(1.000000, 1.000000)" stroke="#198038" stroke-width="4">
+            <path d="M7,2 C5.60714286,2 4.35442623,2.54900089 3.45171356,3.45171356 C2.54900089,4.35442623 2,5.60714286 2,7 C2,8.39285714 2.54900089,9.64557377 3.45171356,10.5482864 C4.35442623,11.4509991 5.60714286,12 7,12 C8.39285714,12 9.64557377,11.4509991 10.5482864,10.5482864 C11.4509991,9.64557377 12,8.39285714 12,7 C12,5.60714286 11.4509991,4.35442623 10.5482864,3.45171356 C9.64557377,2.54900089 8.39285714,2 7,2 Z" id="Fill"></path>
+        </g>
+    </g>
+</svg>

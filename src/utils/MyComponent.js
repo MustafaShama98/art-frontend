@@ -3,8 +3,8 @@ import useWebSocketHook from './useWebSocketHook';
 
 const MyComponent = () => {
     const socketUrl = 'ws://127.0.0.1:5000';
-    const { messages, connectionStatus, isLoading } = useWebSocketHook(process.env.REACT_APP_SOCKET_URL);
-
+    const { messages, connectionStatus, isLoading } = useWebSocketHook();
+        console.log(messages)
     return (
         <div>
             {/* ... UI elements ... */}

@@ -1,0 +1,16 @@
+@import './status';
+
+.main {
+  padding: 50px;
+  background: #f4f4f4;
+}
+
+.top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.bx--data-table td {
+  background: #fff;
+}

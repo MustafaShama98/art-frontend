@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import useWebSocket ,  { ReadyState }from 'react-use-websocket';
 
-const useWebSocketHook = (socketUrl) => {
+const useWebSocketHook = () => {
     const [messageHistory, setMessageHistory] = useState([]);
     const [readyState, setReadyState] = useState(ReadyState.CLOSED); // Initial state
 
-    const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
+    const { sendMessage, lastMessage } = useWebSocket(process.env.REACT_APP_SOCKET_URL, {
         onOpen: () => setReadyState(ReadyState.OPEN),
         onClose: () => setReadyState(ReadyState.CLOSED),
         onError: (error) => console.error('Error:', error),
@@ -19,14 +19,21 @@ const useWebSocketHook = (socketUrl) => {
 
     useEffect(() => {
         if (lastMessage !== null) {
-            setMessageHistory((prev) => [...prev, {
-                message: lastMessage.data,
-                time: new Date().toLocaleTimeString(),
-                type: 'received'
-            }]);
+            try {
+                const parsedMessage = JSON.parse(lastMessage.data); // Convert to JSON
+                setMessageHistory((prev) => [
+                    ...prev,
+                    {
+                        message: parsedMessage,
+                        time: new Date().toLocaleTimeString(),
+                        type: 'received',
+                    },
+                ]);
+            } catch (error) {
+                console.error("Failed to parse message as JSON:", error);
+            }
         }
     }, [lastMessage]);
-
 
 
     const connectionStatus = {

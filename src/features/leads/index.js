@@ -12,6 +12,9 @@ import {useGetPaintingsQuery} from '../../utils/apiSlice'
 import {useDeletePaintingsMutation} from '../../utils/apiSlice'
 import InformationCircleIcon from "@heroicons/react/24/outline/InformationCircleIcon";
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
+import useWebSocketHook from '../../utils/useWebSocketHook';
+import  StoppedIcon  from "./icons/stopped.svg";
+import  RunningIcon  from "./icons/running.svg";
 const TopSideButtons = ({ fetchLeads }) => {
     const dispatch = useDispatch();
 
@@ -44,7 +47,6 @@ const TopSideButtons = ({ fetchLeads }) => {
 
 function Leads() {
     const [leads, setLeads] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteMessage, setDeleteMessage] = useState("");
     const [confirmDeleteIndex, setConfirmDeleteIndex] = useState(null);
@@ -55,7 +57,26 @@ function Leads() {
     const {data=[], error, isLoading : loading}= useGetPaintingsQuery()
     const [deletePaintings,{deletedata,isnotLoading,isSuccess}] = useDeletePaintingsMutation()
     const [expandedIndex, setExpandedIndex] = useState(null);
+    const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook();
+    const [badgeStatus, setBadgeStatus] = useState({
+        wheelchair: false,
+        sensor: false,
+        height: false,
+      });
 
+      useEffect(() => {
+        if (messages && messages.length > 0) {
+          // Get the latest message (assuming messages is an array)
+          const latestMessage = messages[messages.length - 1];
+                console.log('lastest messages, ', latestMessage.message)
+          // Update the badge status
+          setBadgeStatus({
+            wheelchair: latestMessage.message.wheelchair,
+            sensor: latestMessage.message.sensor,
+            height: latestMessage.message.height,
+          });
+        }
+      }, [messages]); // React to changes in the `messages` array
     useEffect(() => {
         if(data.length >0)
 
@@ -164,7 +185,7 @@ function Leads() {
         );
     };
     
-
+    const getIcon = (status) => (status ? RunningIcon : StoppedIcon);
     return (
         <>
             <TitleCard
@@ -211,15 +232,18 @@ function Leads() {
     <span className={`badge ${getLeadStatus(lead.status)}`}>
         {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
     </span>
-    <span className="badge badge-success">
+    <span className={`badge ${badgeStatus.sensor ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(badgeStatus.sensor)} alt="Sensor status" style={{ width: '20px', marginRight: '5px' }} />
         {'Sensor'}
-    </span>
-    <span className="badge badge-error">
+      </span>
+      <span className={`badge ${badgeStatus.wheelchair ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(badgeStatus.wheelchair)} alt="Wheelchair status" style={{ width: '20px', marginRight: '5px' }} />
         {'Wheelchair'}
-    </span>
-    <span className="badge badge-error">
+      </span>
+      <span className={`badge ${badgeStatus.height ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(badgeStatus.height)} alt="Height adjust status" style={{ width: '20px', marginRight: '5px' }} />
         {'Height Adjust'}
-    </span>
+      </span>
 </div>
 
                             </div>
