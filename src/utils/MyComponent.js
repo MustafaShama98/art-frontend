@@ -3,7 +3,7 @@ import useWebSocketHook from './useWebSocketHook';
 
 const MyComponent = () => {
     const socketUrl = 'ws://127.0.0.1:5000';
-    const { messages, connectionStatus, isLoading } = useWebSocketHook();
+    const { messages, connectionStatus, isLoading,lastMessage } = useWebSocketHook();
         console.log(messages)
     return (
         <div>
@@ -17,7 +17,7 @@ const MyComponent = () => {
                 <ul>
                     {messages.map((message, index) => (
                         <li key={index}>
-                            {message.time}: {message.type === 'sent' ? 'You:' : ''} {message.message}
+                             {JSON.stringify(message) }
                         </li>
                     ))}
                 </ul>

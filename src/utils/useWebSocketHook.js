@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import useWebSocket ,  { ReadyState }from 'react-use-websocket';
 
 const useWebSocketHook = () => {
-    const [messageHistory, setMessageHistory] = useState([]);
+    const [messages, setMessageHistory] = useState([]);
     const [readyState, setReadyState] = useState(ReadyState.CLOSED); // Initial state
 
     const { sendMessage, lastMessage } = useWebSocket(process.env.REACT_APP_SOCKET_URL, {
@@ -24,9 +24,8 @@ const useWebSocketHook = () => {
                 setMessageHistory((prev) => [
                     ...prev,
                     {
-                        message: parsedMessage,
-                        time: new Date().toLocaleTimeString(),
-                        type: 'received',
+                         ...parsedMessage,
+
                     },
                 ]);
             } catch (error) {
@@ -46,9 +45,10 @@ const useWebSocketHook = () => {
     const isLoading = readyState === ReadyState.CONNECTING; // Indicate loading
 
     return {
-        messages: messageHistory,
+        messages,
         connectionStatus,
         isLoading,
+        lastMessage
     };
 };
 

@@ -36,12 +36,10 @@ const TopSideButtons = ({ fetchLeads }) => {
         onClick={openAddNewLeadModal}
     >
 
-        <span className="text-sm">Add New</span> 
+        <span className="text-sm">Add New</span>
         <PlusIcon className="w-4 h-4 text-black" />
     </button>
 </div>
-
-  
 
 
     );
@@ -53,40 +51,58 @@ function Leads() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteMessage, setDeleteMessage] = useState("");
     const [confirmDeleteIndex, setConfirmDeleteIndex] = useState(null);
-   
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImage, setModalImage] = useState(null);
     const dispatch = useDispatch();
-    const {data=[], error, isLoading : loading}= useGetPaintingsQuery()
+    let {data=[], error, isLoading : loading}= useGetPaintingsQuery()
     const [deletePaintings,{deletedata,isnotLoading,isSuccess}] = useDeletePaintingsMutation()
     const [expandedIndex, setExpandedIndex] = useState(null);
-    const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook(); 
+    const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook();
     const [statusByPainting, setStatusByPainting] = useState({}); // Track statuses dynamically by sys_id
     const [badgeStatus, setBadgeStatus] = useState({
         wheelchair: false,
-        sensor: true,
-        height: false,
+        sensor: false,
+        height_adjust: false,
       });
 
       useEffect(() => {
         if (messages && messages.length > 0) {
           // Get the latest message (assuming messages is an array)
           const latestMessage = messages[messages.length - 1];
-                console.log('lastest messages, ', latestMessage.message)
+                console.log('lastest messages, ', latestMessage)
           // Update the badge status
-         setBadgeStatus({
-            wheelchair: latestMessage.message.wheelchair,
-            sensor: latestMessage.message.sensor,
-            height: latestMessage.message.height,
+          setBadgeStatus({
+            wheelchair: latestMessage.wheelchair,
+            sensor: latestMessage.sensor,
+              height_adjust: latestMessage.height_adjust,
           });
+            // Update leads state
+            setLeads((prevLeads) =>
+                prevLeads.map((painting) => {
+                    if (painting.sys_id === latestMessage.sys_id) {
+                        return {
+                            ...painting,
+                            wheelchair: latestMessage.wheelchair,
+                            sensor: latestMessage.sensor,
+                            height_adjust: latestMessage.height_adjust,
+                        };
+                    }
+                    return painting; // Return unchanged painting
+                })
+            );
         }
-      }, [messages]); // React to changes in the `messages` array
+      }, [messages]);
+
     useEffect(() => {
-        if(data.length >0)
+        if (data?.data?.length > 0) {
+            setLeads((prev) => {
+                // Return the new leads array by combining the previous leads and new data
+                return [...prev, ...data.data];
+            });
+        }
+    }, [data]);
 
-            setLeads(data.data)
-
-    }, [ data]);
     function editModalOpen(data){
         console.log(data)
         dispatch(openModal({ title: "Edit Painting", bodyType: MODAL_BODY_TYPES.PAINTING_EDIT , 
@@ -189,7 +205,7 @@ function Leads() {
         );
     };
     
-    
+
     {/* Define StatusBeacon Inline */}
 const Status = ({ icon, label, explanation }) => (
     <div
@@ -209,7 +225,7 @@ const Status = ({ icon, label, explanation }) => (
       </div>
     </div>
   );
-      
+
     return (
         <>
             <TitleCard
@@ -224,7 +240,7 @@ const Status = ({ icon, label, explanation }) => (
                 ) : (
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {data.data.map((lead, index) => (
+                    {leads.map((lead, index) => (
                         <div
                             key={index}
                             className="card bg-base-100 shadow-xl p-4 flex flex-col justify-between
@@ -253,7 +269,7 @@ const Status = ({ icon, label, explanation }) => (
                               {/* <div className="p-4 bg-white rounded-lg shadow-md space-y-2"></div> */}
 
                               <div className="badge-container" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-    
+
  {/* Status  */}
 <div className="mt-2 space-y-2 sm:space-y-3">
   {/* System Status */}
@@ -285,6 +301,21 @@ const Status = ({ icon, label, explanation }) => (
     label="Height Adjust"
     explanation={badgeStatus.height ? "Adjusting the height for optimal visibility." : "No height adjustments currently in progress."}
   />
+    <span className={`badge ${getLeadStatus(lead.status)}`}>
+        {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
+    </span>
+    <span className={`badge ${lead.sensor ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(lead.sensor)} alt="Sensor status" style={{ width: '20px', marginRight: '5px' }} />
+        {'Sensor'}
+      </span>
+      <span className={`badge ${lead.wheelchair ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(lead.wheelchair)} alt="Wheelchair status" style={{ width: '20px', marginRight: '5px' }} />
+        {'Wheelchair'}
+      </span>
+      <span className={`badge ${lead.height_adjust ? 'badge-success' : 'badge-error'}`}>
+        <img src={getIcon(lead.height_adjust)} alt="Height adjust status" style={{ width: '20px', marginRight: '5px' }} />
+        {'Height Adjust'}
+      </span>
 </div>
 </div>
 
@@ -314,7 +345,7 @@ const Status = ({ icon, label, explanation }) => (
             className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-35 py-1 hover:bg-blue-100 transition duration-200 underline"
             onClick={() => handleMoreInfo(lead)}
         >
-            
+
             <span>More Info</span>
         </button>
     </div>
