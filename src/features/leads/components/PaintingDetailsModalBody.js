@@ -47,23 +47,17 @@ const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
     <p>
         <strong>Microcontroller:</strong> {extraObject.microcontroller} 
     </p>
-    <p>
-        <strong>Status:</strong>{" "}
-        <span
-            className={`badge ${
-                extraObject.status === "Active" ? "badge-success" : "badge-error"
-            }`}
-        >
-            {extraObject.status}
-        </span>
-    </p>
 </div>
 
-            <div className="text-right mt-4">
-                <button className="btn btn-primary" onClick={closeModal}>
-                    Close
-                </button>
-            </div>
+<div className="text-right mt-4">
+    <button
+        className="bg-blue-500 text-black font-medium py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
+        onClick={closeModal}
+    >
+        Close
+    </button>
+</div>
+
         </div>
     );
 };

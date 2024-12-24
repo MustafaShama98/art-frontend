@@ -46,21 +46,22 @@ function LeftSidebar() {
               <SidebarSubmenu {...route} />
             ) : (
               <NavLink
-                end
-                to={route.path}
-                className={({ isActive }) =>
-                  `group flex items-center space-x-3 py-3 px-4 rounded-lg border-2 
-                  ${
-                    isActive
-                      ? "bg-primary text-white font-bold border-primary"
-                      : "bg-gray-50 text-gray-800 border-gray-300 shadow-md hover:bg-gray-100"
-                  }
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`
-                }
-              >
-                <span>{route.icon}</span>
-                <span className="text-md font-semibold">{route.name}</span>
-              </NavLink>
+  end
+  to={route.path}
+  className={({ isActive }) =>
+    `group flex items-center space-x-3 py-3 px-4 rounded-md border 
+    ${
+      isActive
+        ? "bg-blue-500 text-white font-bold border-blue-500"
+        : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"
+    }
+    shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`
+  }
+>
+  <span>{route.icon}</span>
+  <span className="text-md font-medium">{route.name}</span>
+</NavLink>
+
             )}
           </li>
         ))}

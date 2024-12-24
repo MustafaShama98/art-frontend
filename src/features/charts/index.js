@@ -66,25 +66,25 @@ function Charts() {
               {/* Header Section */}
               <header className="flex flex-col lg:flex-row lg:justify-between items-center mb-8">
                 
-                {/* Date Range Picker */}
-                <div className="flex flex-col lg:flex-row lg:items-center">
-                  <label htmlFor="date-range" className="text-gray-700 mr-2 font-bold text-lg">
-                    Select Date Range:
-                  </label>
-                  
-                  <Datepicker
-                  
-                    value={dateValue}
-                    theme="light"
-                    inputClassName="input input-bordered w-full lg:w-72 text-lg"
-                    toggleClassName="absolute bg-blue-300 rounded-r-lg text-white right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
-                    showShortcuts={true}
+              <div className="flex items-center space-x-4">
+  {/* Label for Date Picker */}
+  <label htmlFor="date-range" className="text-gray-700 font-bold text-lg whitespace-nowrap">
+    Select Date:
+  </label>
+  
+  {/* Date Picker */}
+  <Datepicker
+    value={dateValue}
+    theme="light"
+    inputClassName="input input-bordered w-full lg:w-72 text-lg rounded-l-lg"
+    toggleClassName="absolute bg-blue-500 hover:bg-blue-700 text-black rounded-r-lg top-0 right-0 h-full px-4 focus:outline-none transition duration-200 disabled:opacity-50 right-[-50px]  disabled:cursor-not-allowed"
+    showShortcuts={true}
+    popoverDirection="down"
+    onChange={handleDatePickerValueChange}
+    primaryColor="blue"
+  />
+</div>
 
-                    popoverDirection="down"
-                    onChange={handleDatePickerValueChange}
-                    primaryColor="blue"
-                  />
-                </div>
         
               </header>
         
@@ -131,7 +131,7 @@ function Charts() {
                   <h2 className="text-xl font-semibold text-gray-800">Painting Statistics</h2>
                   <button
                     onClick={downloadCSV}
-                    className="bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-green-700 flex items-center space-x-2 transition duration-300 ease-in-out transform hover:scale-105"
+                    className="bg-gradient-to-r from-blue-400 to-blue-600 text-black px-6 py-3 rounded-lg shadow-lg hover:from-blue-500 hover:to-blue-700 flex items-center space-x-2 transition duration-300 ease-in-out transform hover:scale-105"
                   >
                     <span className="font-medium">Download Report as CSV</span>
                     <ArrowDownTrayIcon className="w-5 h-5" />

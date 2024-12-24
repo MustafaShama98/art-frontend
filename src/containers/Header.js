@@ -108,22 +108,26 @@ function Header() {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow-lg bg-white dark:bg-gray-800 rounded-lg w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow-lg bg-white dark:bg-gray-800 rounded-lg w-40"
             >
               <li>
-                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Hello, {username}
-                </span>
-              </li>
-              <div className="divider my-1"></div>
-              <li>
-                <a
-                  onClick={logoutUser}
-                  className="text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-800 rounded-md cursor-pointer"
-                >
-                  Logout
-                </a>
-              </li>
+  {/* Greeting Message */}
+  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+    Hello, {username}
+  </span>
+</li>
+<div className="divider my-1"></div>
+<li>
+  {/* Logout Button */}
+  <a
+    onClick={logoutUser}
+    className="text-red-600 dark:text-red-400 border border-red-600 hover:text-white hover:bg-red-600 dark:hover:bg-red-800 py-2 px-5 rounded-md cursor-pointer transition duration-100 ease-in-out"
+  >
+    Logout
+  </a>
+</li>
+
+
             </ul>
           </div>
         </div>

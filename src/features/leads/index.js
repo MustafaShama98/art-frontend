@@ -15,6 +15,7 @@ import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
 import useWebSocketHook from '../../utils/useWebSocketHook';
 import  StoppedIcon  from "./icons/stopped.svg";
 import  RunningIcon  from "./icons/running.svg";
+
 const TopSideButtons = ({ fetchLeads }) => {
     const dispatch = useDispatch();
 
@@ -29,16 +30,18 @@ const TopSideButtons = ({ fetchLeads }) => {
     };
 
     return (
-        <div className="inline-block float-right">
+      <div className="inline-block float-right">
     <button
-        className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-3 py-1 rounded shadow hover:from-blue-500 hover:to-blue-700 flex items-center space-x-1 transition duration-200 ease-in-out transform hover:scale-105"
+        className="bg-blue-500 text-black  font-medium px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 transition duration-200 ease-in-out flex items-center space-x-2"
         onClick={openAddNewLeadModal}
     >
-        <span className="text-sm">Add New</span>
-        <PlusIcon className="w-4 h-4 text-white" />
-        
+
+        <span className="text-sm">Add New</span> 
+        <PlusIcon className="w-4 h-4 text-black" />
     </button>
 </div>
+
+  
 
 
     );
@@ -50,17 +53,18 @@ function Leads() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteMessage, setDeleteMessage] = useState("");
     const [confirmDeleteIndex, setConfirmDeleteIndex] = useState(null);
-
+   
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalImage, setModalImage] = useState(null);
     const dispatch = useDispatch();
     const {data=[], error, isLoading : loading}= useGetPaintingsQuery()
     const [deletePaintings,{deletedata,isnotLoading,isSuccess}] = useDeletePaintingsMutation()
     const [expandedIndex, setExpandedIndex] = useState(null);
-    const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook();
+    const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook(); 
+    const [statusByPainting, setStatusByPainting] = useState({}); // Track statuses dynamically by sys_id
     const [badgeStatus, setBadgeStatus] = useState({
         wheelchair: false,
-        sensor: false,
+        sensor: true,
         height: false,
       });
 
@@ -70,7 +74,7 @@ function Leads() {
           const latestMessage = messages[messages.length - 1];
                 console.log('lastest messages, ', latestMessage.message)
           // Update the badge status
-          setBadgeStatus({
+         setBadgeStatus({
             wheelchair: latestMessage.message.wheelchair,
             sensor: latestMessage.message.sensor,
             height: latestMessage.message.height,
@@ -185,7 +189,27 @@ function Leads() {
         );
     };
     
-    const getIcon = (status) => (status ? RunningIcon : StoppedIcon);
+    
+    {/* Define StatusBeacon Inline */}
+const Status = ({ icon, label, explanation }) => (
+    <div
+      className="flex items-center gap-2 p-2 rounded-lg bg-gray-50 shadow border"
+      style={{ borderColor: '#ddd' }}
+    >
+      {/* Icon */}
+      <img
+        src={icon}
+        alt={`${label} Icon`}
+        className="w-6 h-6"
+      />
+      {/* Label and Explanation */}
+      <div>
+        <p className="font-semibold text-gray-800 text-sm sm:text-base">{label}</p>
+        <p className="text-gray-500 text-xs sm:text-sm">{explanation}</p>
+      </div>
+    </div>
+  );
+      
     return (
         <>
             <TitleCard
@@ -229,52 +253,73 @@ function Leads() {
                               {/* <div className="p-4 bg-white rounded-lg shadow-md space-y-2"></div> */}
 
                               <div className="badge-container" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-    <span className={`badge ${getLeadStatus(lead.status)}`}>
-        {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
-    </span>
-    <span className={`badge ${badgeStatus.sensor ? 'badge-success' : 'badge-error'}`}>
-        <img src={getIcon(badgeStatus.sensor)} alt="Sensor status" style={{ width: '20px', marginRight: '5px' }} />
-        {'Sensor'}
-      </span>
-      <span className={`badge ${badgeStatus.wheelchair ? 'badge-success' : 'badge-error'}`}>
-        <img src={getIcon(badgeStatus.wheelchair)} alt="Wheelchair status" style={{ width: '20px', marginRight: '5px' }} />
-        {'Wheelchair'}
-      </span>
-      <span className={`badge ${badgeStatus.height ? 'badge-success' : 'badge-error'}`}>
-        <img src={getIcon(badgeStatus.height)} alt="Height adjust status" style={{ width: '20px', marginRight: '5px' }} />
-        {'Height Adjust'}
-      </span>
+    
+ {/* Status  */}
+<div className="mt-2 space-y-2 sm:space-y-3">
+  {/* System Status */}
+  <div className="badge-container flex flex-wrap gap-3">
+    <Status
+      icon={lead.status === "Active" ? RunningIcon : StoppedIcon}
+      label="System Status"
+      explanation={
+        lead.status === "Active"
+          ? "The system is running and fully operational."
+          : "The system is shut down and not operational."
+      }
+    />
+  </div>
+
+  {/* Other Status  */}
+  <Status
+    icon={badgeStatus.sensor ? RunningIcon : StoppedIcon}
+    label="Sensor"
+    explanation={badgeStatus.sensor ? "A person is being detected by the sensor." : "No person detected by the sensor."}
+  />
+  <Status
+    icon={badgeStatus.wheelchair ? RunningIcon : StoppedIcon}
+    label="Wheelchair"
+    explanation={badgeStatus.wheelchair ? "A person in a wheelchair has been detected." : "No wheelchair user detected."}
+  />
+  <Status
+    icon={badgeStatus.height ? RunningIcon : StoppedIcon}
+    label="Height Adjust"
+    explanation={badgeStatus.height ? "Adjusting the height for optimal visibility." : "No height adjustments currently in progress."}
+  />
+</div>
 </div>
 
                             </div>
-                            <div className="flex justify-between mt-4">
-                                <button 
-                                className="btn btn-outline border-blue-500 text-blue-500 hover:bg-blue-100"
-                                onClick={() => handleEditLead(lead)}
-                                >
-                                    <PencilIcon className="w-5 text-blue-500" />
-                                    <span className="text-blue-500 ml-2">Edit</span>
-                                </button>
-                    <button
-                                className={`btn ${
-                                isDeleting ? "bg-red-500 text-white border-red-500" : "btn-outline btn-error"}`}
-                                onClick={() => setConfirmDeleteIndex(index)}
-                                disabled={isDeleting}>
-                               {isDeleting ? ("Deleting..." ) : ( 
-                                <>
-                               <TrashIcon className="w-5 text-red-500" />
-                               <span className="ml-2 text-red-500">Delete</span>
-                               </>
-                               
-                            )}
-                            </button>
-                             <button
-        className="text-blue-500 underline cursor-pointer hover:text-blue-700"
-        onClick={() => handleMoreInfo(lead)}
-    >
-       More Info
-    </button>
-                        </div>
+                            <div className="flex justify-between items-center p-4 border-t">
+    <div className="border-r pr-4">
+        <button
+            className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-3 py-1 hover:bg-blue-100 transition duration-200 underline"
+            onClick={() => handleEditLead(lead)}
+        >
+            <PencilIcon className="w-5 h-5" />
+            <span>Edit</span>
+        </button>
+    </div>
+    <div className="border-r pr-4">
+        <button
+            className="flex items-center space-x-2 text-red-500 border border-red-500 rounded-md px-3 py-1 hover:bg-red-100 transition duration-200 underline"
+            onClick={() => setConfirmDeleteIndex(index)}
+            disabled={isDeleting}
+        >
+            <TrashIcon className="w-5 h-5" />
+            <span>{isDeleting ? "Deleting..." : "Delete"}</span>
+        </button>
+    </div>
+    <div className="pl-4">
+        <button
+            className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-35 py-1 hover:bg-blue-100 transition duration-200 underline"
+            onClick={() => handleMoreInfo(lead)}
+        >
+            
+            <span>More Info</span>
+        </button>
+    </div>
+</div>
+
                     </div>
                     ))}
                 </div>
@@ -306,23 +351,23 @@ function Leads() {
             <p className="text-lg mb-6">Are you sure you want to delete this painting?</p>
 
             {/* Action Buttons */}
-            <div className="flex justify-center gap-4">
-                {/* Cancel Button */}
-                <button
-                    className="btn btn-outline btn-error"
-                    onClick={() => setConfirmDeleteIndex(null)}
-                >
-                    Cancel
-                </button>
+      <div className="flex justify-center gap-4">
+        {/* Cancel Button */}
+        <button
+          className="border border-gray-300 text-gray-700 py-2 px-6   font-medium rounded-md hover:bg-gray-100 transition duration-200"
+          onClick={() => setConfirmDeleteIndex(null)}
+        >
+          Cancel
+        </button>
 
-                {/* Confirm Button */}
-                <button
-                    className="btn btn-primary"
-                    onClick={() => handleDeleteLead(confirmDeleteIndex)}
-                >
-                    Confirm
-                </button>
-            </div>
+        {/* Confirm Button */}
+        <button
+          className="bg-red-500 text-blsck py-2 px-6   font-medium rounded-md hover:bg-red-600 transition duration-200"
+          onClick={() => handleDeleteLead(confirmDeleteIndex)}
+        >
+          Confirm
+        </button>
+      </div>
         </div>
     </div>
 )}

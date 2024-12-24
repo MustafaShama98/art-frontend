@@ -180,55 +180,68 @@ function AddPaintingModalBody({ closeModal }) {
 />
 
 
-      <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Upload Photo
-        </label>
-        <div className="mt-2 flex items-center">
-          <label
-            htmlFor="file-upload"
-            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Choose File
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleFileInput}
-            className="hidden"
-          />
-        </div>
-        {previewImage && (
-          <div className="mt-4">
-            <img src={previewImage} alt="Preview" className="h-32 w-auto rounded shadow" />
-          </div>
-        )}
-      </div>
+<div className="mt-4">
+  {/* Label for file upload */}
+  <label className="block text-sm font-medium text-gray-700">
+    Upload Photo
+  </label>
+  
+  {/* File Upload Section */}
+  <div className="mt-2 flex items-center space-x-4">
+    <label
+      htmlFor="file-upload"
+      className="cursor-pointer border border-blue-500 text-blue-500 font-medium py-2 px-4 rounded-md hover:bg-blue-500 hover:text-black transition duration-200"
+    >
+      Choose File
+    </label>
+    <input
+      id="file-upload"
+      type="file"
+      accept="image/*"
+      onChange={handleFileInput}
+      className="hidden"
+    />
+  </div>
+  
+  {/* Image Preview */}
+  {previewImage && (
+    <div className="mt-4">
+      <img
+        src={previewImage}
+        alt="Preview"
+        className="h-32 w-auto rounded shadow"
+      />
+    </div>
+  )}
 
-      {loading ? (
-        <div className="mt-16 text-center">
-          <p>Saving your painting, please wait...</p>
-        </div>
-      ) : (
-        <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
-      )}
-      <div className="modal-action">
-        <button
-          className="btn btn-ghost"
-          onClick={() => closeModal()}
-          disabled={loading}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-primary px-6"
-          onClick={() => saveNewPainting()}
-          disabled={loading}
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
-      </div>
+  {/* Loading or Error Message */}
+  {loading ? (
+    <div className="mt-16 text-center">
+      <p className="text-gray-500">Saving your painting, please wait...</p>
+    </div>
+  ) : (
+    <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
+  )}
+
+  {/* Modal Actions */}
+  <div className="mt-6 flex justify-end space-x-4">
+    <button
+      className="border border-gray-300 font-medium  text-gray-700 rounded-md py-2 px-4 hover:bg-gray-100 transition duration-200"
+      onClick={() => closeModal()}
+      disabled={loading}
+    >
+      Cancel
+    </button>
+    <button
+      className="bg-blue-500 text-black font-medium py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
+      onClick={() => saveNewPainting()}
+      disabled={loading}
+    >
+      {loading ? "Saving..." : "Save"}
+    </button>
+  </div>
+</div>
+
     </>
   );
 }

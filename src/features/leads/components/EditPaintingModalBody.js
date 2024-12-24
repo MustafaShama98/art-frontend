@@ -126,39 +126,49 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
         labelTitle="Microcontroller"
         updateFormValue={updateFormValue}
       />
-      {/* Status Selection Box */}
-      <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700">Change Status</label>
-        <div className="mt-2">
-          <select
-            value={status || "Active"}
-            onChange={(e) => updateFormValue({ updateType: "status", value: e.target.value })}
-          >
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
-      </div>
+     {/* Status Selection Box */}
+<div className="mt-4">
+  <label className="block text-sm font-medium text-gray-700">Change Status</label>
+  <div className="mt-2">
+    <select
+      value={status || "Active"}
+      onChange={(e) => updateFormValue({ updateType: "status", value: e.target.value })}
+      className="block w-full border border-gray-300 rounded-md py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+    >
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+</div>
 
-     
+{/* Loading or Error Message */}
+{loading ? (
+  <div className="mt-16 text-center">
+    <p className="text-gray-500">Saving your painting, please wait...</p>
+  </div>
+) : (
+  <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
+)}
 
-      {loading ? (
-        <div className="mt-16 text-center">
-          <p>Saving your painting, please wait...</p>
-        </div>
-      ) : (
-        <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
-      )}
+{/* Modal Actions */}
+<div className="mt-6 flex justify-end space-x-4">
+  <button
+  className="border border-gray-300  font-medium  text-gray-700 rounded-md py-2 px-4 hover:bg-gray-100 transition duration-200"
+  
+    onClick={() => closeModal()}
+    disabled={loading}
+  >
+    Cancel
+  </button>
+  <button
+    className="bg-blue-500 text-black font-medium py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
+    onClick={() => saveEditLead()}
+    disabled={loading}
+  >
+    {loading ? "Saving..." : "Save"}
+  </button>
+</div>
 
-      {/* Modal Actions */}
-      <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => closeModal()} disabled={loading}>
-          Cancel
-        </button>
-        <button className="btn btn-primary px-6" onClick={() => saveEditLead()} disabled={loading}>
-          {loading ? "Saving..." : "Save"}
-        </button>
-      </div>
     </>
   );
 }
