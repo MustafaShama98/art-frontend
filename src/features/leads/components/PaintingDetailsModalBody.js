@@ -18,7 +18,7 @@ const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
         }}
     />
 </p>
-<div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+<div className="grid grid-cols-2 gap-4 text-sm text-gray-700 text-black dark:text-white">
     <p>
         <strong>Id:</strong> {extraObject.sys_id || "N/A"}
     </p>
@@ -45,7 +45,7 @@ const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
         {Math.round(Math.sqrt(Math.pow(extraObject.width, 2) + Math.pow(extraObject.height, 2)) * 1.5)} cm
     </p>
     <p>
-        <strong>Microcontroller:</strong> {extraObject.microcontroller} 
+        <strong>Microcontroller:</strong> {extraObject.microcontroller|| "N/A"}
     </p>
 </div>
 
