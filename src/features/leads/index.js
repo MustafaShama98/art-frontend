@@ -241,7 +241,7 @@ const Status = ({ icon, label, explanation }) => (
                              p-4 bg-white rounded-lg shadow-md space-y-2 dark:bg-[#1f2937]  dark: text-white">
                             <div className={ "text-black  dark:text-white" }>
                                 <img
-                                    src={lead.photo || "placeholder.jpg"}
+                                    src={lead.photo || "/nophoto.jpg"}
                                     alt={lead.photo ? `${lead.name}'s painting` : "No photo available"}
                                     style={{
                                         height: "200px",
