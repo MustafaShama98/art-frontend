@@ -56,7 +56,7 @@ function AddPaintingModalBody({ closeModal }) {
     setLoading(true);
     try {
       await addPainting(newPaintingObj).unwrap()
-        if(!isLoading) {
+        if(isSuccess) {
           dispatch(showNotification({ message: "New Painting Added!", status: 1 }));
           closeModal()
         }
@@ -72,7 +72,7 @@ function AddPaintingModalBody({ closeModal }) {
       // }
     } catch (error) {
       console.error("Error saving painting:", error);
-      setErrorMessage("Failed to save painting. Please try again.");
+      setErrorMessage("Failed to save painting. Please try again. \n Check help page for more info");
     } finally {
       setLoading(false);
     }
@@ -215,7 +215,7 @@ function AddPaintingModalBody({ closeModal }) {
   )}
 
   {/* Loading or Error Message */}
-  {loading ? (
+  {isLoading ? (
     <div className="mt-16 text-center">
       <p className="text-gray-500">Saving your painting, please wait...</p>
     </div>
