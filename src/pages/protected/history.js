@@ -1,89 +1,82 @@
 import React, { useState } from 'react';
 import { useGetPaintingStatsQuery } from '../../utils/apiSlice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import StackBarChart from './components/StackBarChart';
-import LineChart from './components/LineChart';
+import StackBarChart from '../../features/charts/components/StackBarChart';
+import LineChart from '../../features/charts/components/LineChart';
 import Datepicker from "react-tailwindcss-datepicker";
 import ArrowDownTrayIcon from '@heroicons/react/24/outline/ArrowDownTrayIcon';
 import ClockIcon from '@heroicons/react/24/outline/ClockIcon';
 import EyeIcon from '@heroicons/react/24/outline/EyeIcon';
-import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
-
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 function Charts() {
-  const navigate = useNavigate(); // Initialize useNavigate
-  const { data, isLoading, isError } = useGetPaintingStatsQuery();
-  const [dateValue, setDateValue] = useState({
-      startDate: new Date(new Date().setDate(new Date().getDate() - 7)), // 1 week prior
-      endDate: new Date(), // Current date
-  });
+    const navigate = useNavigate(); // Initialize useNavigate
+    const { data, isLoading, isError } = useGetPaintingStatsQuery();
+    const [dateValue, setDateValue] = useState({
+        startDate: new Date(new Date().setDate(new Date().getDate() - 7)), // 1 week prior
+        endDate: new Date(), // Current date
+    });
 
-  const handleDatePickerValueChange = (newValue) => {
-      setDateValue(newValue);
-  };
+    const handleDatePickerValueChange = (newValue) => {
+        setDateValue(newValue);
+    };
 
-  // Early return for loading and error states
-  if (isLoading) return <div className="text-center text-lg">Loading painting stats...</div>;
-  if (isError) return <div className="text-red-500 text-center">Error loading painting stats. Please try again later.</div>;
+    if (isLoading) return <div className="text-center text-lg">Loading painting stats...</div>;
+    if (isError) return <div className="text-red-500 text-center">Error loading painting stats. Please try again later.</div>;
+  console.log(data.data)
+    const paintingStats = data?.data?.filter(painting => !painting.isStill) || [];
+    console.log(paintingStats)
+    if (!paintingStats.length) return <div className="text-center text-gray-500">No painting stats available for the selected date range.</div>;
 
-  // Simplify data access
-  const paintingData = data?.data?.filter(painting => painting.isStill) || [];
-console.log(paintingData)
+    const filteredData = paintingStats.map((item) => ({
+        ...item,
+        dailyStats: item.dailyStats.filter((stat) => {
+            const statDate = new Date(stat.date);
+            return (
+                statDate >= new Date(dateValue.startDate) &&
+                statDate <= new Date(dateValue.endDate)
+            );
+        }),
+    }));
 
-  if (!paintingData.length) return <div className="text-center text-gray-500">No painting stats available for the selected date range.</div>;
+    const topViewsPainting = filteredData.reduce(
+        (top, painting) => (painting.totalViews > top.totalViews ? painting : top),
+        { totalViews: 0, sys_id: "N/A" }
+    );
 
-  const filteredData = paintingData.map((item) => ({
-      ...item,
-      dailyStats: item.dailyStats.filter((stat) => {
-          const statDate = new Date(stat.date);
-          return (
-              statDate >= new Date(dateValue.startDate) &&
-              statDate <= new Date(dateValue.endDate)
-          );
-      }),
-  }));
+    const topDurationPainting = filteredData.reduce(
+        (top, painting) =>
+            painting.totalViewDuration > top.totalViewDuration ? painting : top,
+        { totalViewDuration: 0, sys_id: "N/A" }
+    );
 
-  const topViewsPainting = filteredData.reduce(
-      (top, painting) => (painting.totalViews > top.totalViews ? painting : top),
-      { totalViews: 0, sys_id: "N/A" }
-  );
+    const downloadCSV = () => {
+        const csvHeaders = ['Artwork Name,Number of Views,Time Viewed (Seconds)'];
+        const csvRows = data?.data.map((painting) =>
+            `Painting ${painting.sys_id},${painting.totalViews},${painting.totalViewDuration}`
+        ) || [];
 
-  const topDurationPainting = filteredData.reduce(
-      (top, painting) =>
-          painting.totalViewDuration > top.totalViewDuration ? painting : top,
-      { totalViewDuration: 0, sys_id: "N/A" }
-  );
-
-  const downloadCSV = () => {
-      const csvHeaders = ['Artwork Name,Number of Views,Time Viewed (Seconds)'];
-      const csvRows = paintingData.map((painting) =>
-          `Painting ${painting.sys_id},${painting.totalViews},${painting.totalViewDuration}`
-      );
-
-      const csvContent = [csvHeaders, ...csvRows].join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'painting_statistics.csv';
-      link.click();
-  };
+        const csvContent = [csvHeaders, ...csvRows].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'painting_statistics.csv';
+        link.click();
+    };
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             {/* Header Section */}
-           
-
-
-<header className="flex flex-col lg:flex-row lg:justify-between items-center mb-8">
+            <header className="flex flex-col lg:flex-row lg:justify-between items-center mb-8">
     {/* Back to Analytics Button */}
     <div className="flex items-center space-x-4">
         <button
-            onClick={() => navigate('/admin/history')} // Navigate to Charts page
+            onClick={() => navigate('/admin/charts')} // Navigate to Charts page
             className="bg-gradient-to-r from-blue-400 to-blue-600 text-black px-6 py-3 rounded-lg shadow-lg hover:from-blue-500 hover:to-blue-700 flex items-center space-x-2 transition duration-300 ease-in-out transform hover:scale-105"
         >
             {/* Add an Icon */}
-            <ArchiveBoxIcon className="w-5 h-5" />
-            <span className="font-medium">History</span>
+            <ArrowLeftIcon className="w-5 h-5" />
+            <span className="font-medium">Back to Analytics</span>
         </button>
     </div>
 
@@ -93,24 +86,22 @@ console.log(paintingData)
             Select Date:
         </label>
         <Datepicker
-    value={dateValue}
-    theme="light"
-    inputClassName="input input-bordered w-full lg:w-72 text-lg rounded-l-lg"
-    toggleClassName="absolute bg-blue-500 hover:bg-blue-700 text-black rounded-r-lg top-0 right-0 h-full px-4 focus:outline-none transition duration-200 disabled:opacity-50 right-[-50px]  disabled:cursor-not-allowed"
-    showShortcuts={true}
-    popoverDirection="down"
-    onChange={handleDatePickerValueChange}
-    primaryColor="blue"
-/>
-
-
+            value={dateValue}
+            theme="light"
+            inputClassName="input input-bordered w-full lg:w-72 text-lg rounded-l-lg"
+            toggleClassName="absolute bg-blue-500 hover:bg-blue-700 text-black rounded-r-lg top-0 right-0 h-full px-4 focus:outline-none transition duration-200 disabled:opacity-50 right-[-50px]  disabled:cursor-not-allowed"
+            showShortcuts={true}
+            popoverDirection="down"
+            onChange={handleDatePickerValueChange}
+            primaryColor="blue"
+        />
     </div>
 </header>
 {/* Explanation Section */}
 <div className="mt-4 mb-8 text-center">
     <p className="text-gray-600 text-lg">
-        This page provides detailed statistics and insights about the paintings currently in the system. 
-        Analyze their engagement, viewing patterns, and performance over time to better understand their impact.
+        The statistics displayed on this page provide insights into <span className="font-semibold text-gray-800">deleted paintings</span>. 
+        This helps track their engagement and view history before they were removed.
     </p>
 </div>
             {/* Main Content Section */}

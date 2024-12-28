@@ -1,6 +1,7 @@
 import React from "react";
 
 const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
+    const height_adjustt = extraObject.base_height - ((extraObject.height / 2) + 122)
     return (
         <div className="space-y-3">
             <p>
@@ -38,7 +39,8 @@ const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
         <strong>Weight:</strong> {extraObject.weight || "N/A"} kg
     </p>
     <p>
-        <strong>Height Adjustment:</strong> {extraObject.base_height - ((extraObject.height / 2) + 122)} cm
+        <strong>Height Adjustment:</strong> 
+        {height_adjustt > 0 ? height_adjustt + 'cm' : " No adjust" } 
     </p>
     <p>
         <strong>Optimal Viewing Distance:</strong>{" "}

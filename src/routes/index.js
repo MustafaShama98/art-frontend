@@ -15,6 +15,7 @@ const HelpAdmin = lazy(() => import('../pages/protected/HelpAdmin'))
 //const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 //const DocComponents = lazy(() => import('../pages/DocComponents'))
 const HelpWorker = lazy(() => import('../pages/protected/HelpWorker'))
+const history=lazy(() => import('../pages/protected/history'))
 
 const routes = [
  
@@ -34,6 +35,10 @@ const routes = [
     {
       path: '/HelpAdmin',
       component: HelpAdmin,
+    },
+    {
+      path: '/history',
+      component: history,
     },
    
     // Worker routes

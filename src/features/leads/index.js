@@ -82,7 +82,9 @@ function Leads() {
             );
         }
       }, [messages]);
+      
     console.log(leads)
+
     useEffect(() => {
         if (data?.data?.length > 0) {
             setLeads((prev) => {
@@ -106,33 +108,7 @@ function Leads() {
     }
 
     
-    
-   /*const fetchLeads = async () => {
-    console.log("Fetching leads..."); // Debug log
-    setIsLoading(true);
 
-    try {
-        const response = await axios.get("/paintings");
-        if (response.data.success) {
-            // Add a new 'statusColor' property based on the status
-            const updatedLeads = response.data.data.map((lead) => ({
-                ...lead,
-                statusColor: getLeadStatus(lead.status),
-            }));
-            setLeads(updatedLeads); // Set the leads state
-        }
-    } catch (error) {
-        console.error("Error fetching leads:", error);
-        alert("Failed to fetch leads. Please try again.");
-    } finally {
-        setIsLoading(false);
-    }
-};*/
-
-    // useEffect(() => {
-    //     fetchLeads();
-    // }, []);
-    
     // Handle deletion of a lead
     const handleDeleteLead = async (index) => {
         setDeleteMessage("");
@@ -154,7 +130,7 @@ function Leads() {
             }
         }*/ catch (error) {
             //setDeleteMessage("Failed to delete painting. Please try again.");
-            dispatch(showNotification({ message: "Failed to delete painting. Please try again.", status: 1 }));
+            dispatch(showNotification({ message: "Failed to delete painting. Please try again.", status: 0 }));
         } finally {
             setIsDeleting(false);
             setConfirmDeleteIndex(null); // Reset confirmation
@@ -411,7 +387,25 @@ const Status = ({ icon, label, explanation }) => (
     >
       ✕
     </button>
+{/* Edit Button */}
 
+<button
+        className="btn btn-sm btn-circle absolute right-12 top-2"
+        onClick={() => console.log("Edit image")}
+        title="Edit Image"
+      >
+      <PencilIcon className="w-5 h-5 text-blue-500" />
+      </button>
+
+      {/* Bottom-Left (Delete Button) */}
+      <button
+       className="btn btn-sm btn-circle absolute right-20 top-2"
+        onClick={() => console.log("Delete image")}
+        title="Delete Image"
+      >
+      <TrashIcon className="w-5 h-5 text-red-500" />
+
+      </button>
     {/* Larger Image */}
     <img
       src={modalImage}
