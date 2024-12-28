@@ -4,8 +4,10 @@ import  QuestionMarkCircleIcon  from '@heroicons/react/24/outline/QuestionMarkCi
 import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import HomeIcon  from '@heroicons/react/24/outline/HomeIcon';
 
+import ArrowRightOnRectangleIcon from '@heroicons/react/24/outline/ArrowRightOnRectangleIcon'
 const iconClasses = `h-6 w-6`
 
+const submenuIconClasses = `h-5 w-5`
 const AdminSidebar = [
  
   {    path: '/admin/Welcome', // url
@@ -22,6 +24,20 @@ const AdminSidebar = [
      path: '/admin/charts', // url
    icon: <ChartBarIcon className={iconClasses}/>, // icon component
     name: 'Analytics', // name that appear in Sidebar
+    submenu : [
+      {
+        path: '/admin/history',
+        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+        name: 'history',
+      },
+
+      
+        {
+          path: '/admin/charts',
+          icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+          name: 'charts',
+        },
+    ]
    },
    {    path: '/admin/HelpAdmin', // url
     icon: <QuestionMarkCircleIcon className={iconClasses} />, // icon component
