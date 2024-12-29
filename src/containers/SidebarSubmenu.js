@@ -2,63 +2,74 @@ import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+
 function SidebarSubmenu({ submenu, name, icon }) {
     const location = useLocation();
     const [isExpanded, setIsExpanded] = useState(false);
     const navigate = useNavigate();
-    /** Open Submenu list if path found in routes, this is for directly loading submenu routes first time */
+
+    const sidebarButtonClass = `
+        group flex items-center space-x-3 py-3 px-4 rounded-md border 
+        shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+    `;
+
     useEffect(() => {
-        if (submenu.filter(m => m.path === location.pathname)[0]) setIsExpanded(true);
+        if (submenu.some((m) => m.path === location.pathname)) {
+            setIsExpanded(true);
+        } else {
+            setIsExpanded(false);
+        }
     }, [submenu, location.pathname]);
 
-    function redirect (){
-        setIsExpanded(!isExpanded)
-        console.log("here")
-        
-            navigate('/admin/charts');
-       
+    function redirect() {
+        setIsExpanded(!isExpanded);
+        navigate('/admin/Livecharts');
     }
+
     return (
         <div className="flex flex-col">
-            {/** Route header */}
-            <div className="w-full block group flex items-center" onClick={() => redirect()}>
-          {icon}
-                <span className="ml-2">{name}</span>
+            <div
+                className={`${sidebarButtonClass} ${
+                    isExpanded
+                        ? "bg-blue-500 text-white font-bold border-blue-500"
+                        : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"
+                }`}
+                onClick={() => redirect()}
+            >
+                {icon}
+                <span className="text-md font-medium">{name}</span>
                 <ChevronDownIcon
-                    className={
-                        'w-5 h-5 mt-1 float-right delay-400 duration-500 transition-all ' +
-                        (isExpanded ? 'rotate-180' : '')
-                    }
+                    className={`w-5 h-5 ml-auto transform transition-transform duration-500 ${
+                        isExpanded ? "rotate-180" : ""
+                    }`}
                 />
-               
             </div>
 
-            {/** Submenu list */}
-            <div className={`w-full ${isExpanded ? '' : 'hidden'}`}>
-                <ul className="menu menu-compact">
+            {isExpanded && (
+                <ul className="menu menu-compact bg-white rounded-md mt-1 shadow-sm border border-gray-300">
                     {submenu.map((m, k) => {
-                        const isActive = location.pathname === m.path; // Check if the current path matches
+                        const isActive = location.pathname === m.path;
                         return (
                             <li key={k}>
                                 <Link
                                     to={m.path}
-                                    className={isActive ? 'bg-primary text-white' : ''} // Apply active styles when the path matches
+                                    className={`${sidebarButtonClass} ${
+                                        isActive
+                                            ? "bg-blue-500 text-white font-bold border-blue-500"
+                                            : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"
+                                    }`}
                                 >
-                                    {m.icon} {m.name}
-                                    {isActive && (
-                                        <span
-                                            className="absolute mt-1 mb-1 inset-y-0 left-0 w-1 rounded-tr-md rounded-br-md bg-primary"
-                                            aria-hidden="true"
-                                        ></span>
-                                    )}
+                                    <span>{m.icon}</span>
+                                    <span className="text-md font-medium">{m.name}</span>
                                 </Link>
                             </li>
                         );
                     })}
                 </ul>
-            </div>
+            )}
         </div>
     );
 }
+
 
 export default SidebarSubmenu;

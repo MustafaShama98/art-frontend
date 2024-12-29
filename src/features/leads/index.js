@@ -82,7 +82,7 @@ function Leads() {
             );
         }
       }, [messages]);
-      
+
     console.log(leads)
 
     useEffect(() => {
@@ -130,7 +130,7 @@ function Leads() {
             }
         }*/ catch (error) {
             //setDeleteMessage("Failed to delete painting. Please try again.");
-            dispatch(showNotification({ message: "Failed to delete painting. Please try again.", status: 0 }));
+            dispatch(showNotification({ message: "Failed to delete painting. Please try again. \n Check the Help Page for more explanation.", status: 0 }));
         } finally {
             setIsDeleting(false);
             setConfirmDeleteIndex(null); // Reset confirmation
@@ -156,14 +156,7 @@ function Leads() {
         setModalImage(null);
     };
 
-    const getLeadStatus = (status) => {
-        switch (status) {
-            case "Active":
-                return "badge-success";
-            case "Inactive":
-                return "badge-error";
-        }
-    };
+   
     const handleMoreInfo = (lead) => {
         dispatch(
             openModal({
@@ -175,7 +168,7 @@ function Leads() {
     };
     
 
-    {/* Define StatusBeacon Inline */}
+    {/* Define Status Inline */}
 const Status = ({ icon, label, explanation }) => (
     <div
 
@@ -295,11 +288,11 @@ const Status = ({ icon, label, explanation }) => (
                                                 </div>
                                                 <div className="pl-4">
                                                     <button
-                                                        className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-35 py-1 hover:bg-blue-100 transition duration-200 underline"
+                                                        className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-3 py-1 hover:bg-blue-100 transition duration-200 underline"
                                                         onClick={() => handleMoreInfo(lead)}
                                                     >
 
-                                                        <span>More Info</span>
+                                                        <span>Info</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -389,23 +382,7 @@ const Status = ({ icon, label, explanation }) => (
     </button>
 {/* Edit Button */}
 
-<button
-        className="btn btn-sm btn-circle absolute right-12 top-2"
-        onClick={() => console.log("Edit image")}
-        title="Edit Image"
-      >
-      <PencilIcon className="w-5 h-5 text-blue-500" />
-      </button>
 
-      {/* Bottom-Left (Delete Button) */}
-      <button
-       className="btn btn-sm btn-circle absolute right-20 top-2"
-        onClick={() => console.log("Delete image")}
-        title="Delete Image"
-      >
-      <TrashIcon className="w-5 h-5 text-red-500" />
-
-      </button>
     {/* Larger Image */}
     <img
       src={modalImage}

@@ -3,11 +3,9 @@ import { useDispatch } from "react-redux";
 import InputText from "../../../components/Input/InputText";
 import ErrorText from "../../../components/Typography/ErrorText";
 import { showNotification } from "../../common/headerSlice";
-import { addNewLead } from "../leadSlice";
-import axios from "../../../utils/axios";
 import imageCompression from "browser-image-compression";
 import { useAddPaintingsMutation } from  '../../../utils/apiSlice';
-
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 const INITIAL_PAINTING_OBJ = {
   painter_name: "",
   painting_name: "",
@@ -71,8 +69,7 @@ function AddPaintingModalBody({ closeModal }) {
         
       // }
     } catch (error) {
-      console.error("Error saving painting:", error);
-      setErrorMessage("Failed to save painting. Please try again. \n Check help page for more info");
+      dispatch(showNotification({ message: "Failed to save painting. Please try again. \n  Check the Help Page for more explanation.", status: 0 }));
     } finally {
       setLoading(false);
     }
@@ -216,9 +213,14 @@ function AddPaintingModalBody({ closeModal }) {
 
   {/* Loading or Error Message */}
   {isLoading ? (
-    <div className="mt-16 text-center">
-      <p className="text-gray-500">Saving your painting, please wait...</p>
-    </div>
+   <div className="mt-16 text-center">
+   <div className="flex items-center justify-center space-x-2">
+    <ArrowPathIcon className="h-5 w-5 text-blue-500 animate-spin" />
+    <p className="text-gray-500">Saving your painting, please wait...</p>
+     
+   </div>
+ </div>
+ 
   ) : (
     <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
   )}
@@ -237,7 +239,8 @@ function AddPaintingModalBody({ closeModal }) {
       onClick={() => saveNewPainting()}
       disabled={loading}
     >
-      {loading ? "Saving..." : "Save"}
+    
+      {loading ? "Saving..." : "Save"} 
     </button>
   </div>
 </div>

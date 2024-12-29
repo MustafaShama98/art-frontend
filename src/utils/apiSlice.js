@@ -65,6 +65,8 @@ export const apiSlice = createApi({
             },
             invalidatesTags: ['Paintings'],
         }),
+
+       
     }),
 });
 

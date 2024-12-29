@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 import InputText from "../../../components/Input/InputText";
 import ErrorText from "../../../components/Typography/ErrorText";
 import { showNotification } from "../../common/headerSlice";
-import axios from "../../../utils/axios";
-import imageCompression from "browser-image-compression";
-import {useUpdatePaintingMutation} from '../../../utils/apiSlice'
+import {useUpdatePaintingMutation} from '../../../utils/apiSlice';
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 const INITIAL_PAINTING_OBJ = {
   name: "",
   painter_name: "",
@@ -52,8 +51,8 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
       //   alert("Failed to save changes. Please try again.");
       // }
     } catch (error) {
-      console.error("Error updating painting:", error);
-      alert(error.response?.data?.error || "An error occurred. Please try again.");
+      dispatch(showNotification({ message: "Failed to save painting. Please try again. \n  Check the Help Page for more explanation.", status: 0 }));
+    ;
     } finally {
       setLoading(false);
     }
@@ -143,8 +142,12 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
 
 {/* Loading or Error Message */}
 {loading ? (
-  <div className="mt-16 text-center">
-    <p className="text-gray-500">Saving your painting, please wait...</p>
+    <div className="mt-16 text-center">
+    <div className="flex items-center justify-center space-x-2">
+     <ArrowPathIcon className="h-5 w-5 text-blue-500 animate-spin" />
+     <p className="text-gray-500">Saving your painting, please wait...</p>
+      
+    </div>
   </div>
 ) : (
   <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
