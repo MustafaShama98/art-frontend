@@ -1,15 +1,15 @@
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-function SidebarSubmenu({ submenu, name, icon }) {
+function SidebarSubmenu({ submenu, name, icon },buttonClass) {
     const location = useLocation();
     const [isExpanded, setIsExpanded] = useState(false);
     const navigate = useNavigate();
 
     const sidebarButtonClass = `
-        group flex items-center space-x-3 py-3 px-4 rounded-md border 
+        group flex items-center space-x-4 py-3 px-11 rounded-md border 
         shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
     `;
 
@@ -27,8 +27,11 @@ function SidebarSubmenu({ submenu, name, icon }) {
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col "
+              style={{ marginLeft: '-17px' }}
+        >
             <div
+
                 className={`${sidebarButtonClass} ${
                     isExpanded
                         ? "bg-blue-500 text-white font-bold border-blue-500"
@@ -36,8 +39,8 @@ function SidebarSubmenu({ submenu, name, icon }) {
                 }`}
                 onClick={() => redirect()}
             >
-                {icon}
-                <span className="text-md font-medium">{name}</span>
+                <span className="flex-shrink-0">{icon}</span>
+                <span className="text-md font-medium flex-grow">{name}</span>
                 <ChevronDownIcon
                     className={`w-5 h-5 ml-auto transform transition-transform duration-500 ${
                         isExpanded ? "rotate-180" : ""
@@ -53,7 +56,7 @@ function SidebarSubmenu({ submenu, name, icon }) {
                             <li key={k}>
                                 <Link
                                     to={m.path}
-                                    className={`${sidebarButtonClass} ${
+                                    className={`${buttonClass} ${
                                         isActive
                                             ? "bg-blue-500 text-white font-bold border-blue-500"
                                             : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"

@@ -61,6 +61,29 @@ function Leads() {
     const { messages, connectionStatus, isLoading: websocketLoading } = useWebSocketHook();
     const [statusByPainting, setStatusByPainting] = useState({}); // Track statuses dynamically by sys_id
 
+    console.log('leads before effect',leads)
+    console.log('data before effect',data?.data)
+
+    // useEffect(() => {
+    //     if (data?.data?.length > 0) {
+    //         console.log('first useeffect, ' ,data?.data)
+    //         setLeads((prev) => {
+    //             // Filter out any items already in the state to prevent duplication
+    //             // const newLeads = data.data.filter(
+    //             //     (newLead) => !prev.some((lead) => lead.sys_id === newLead.sys_id)
+    //             // );
+    //             return [...prev, ...data.data];
+    //         });
+    //     }
+    // }, [data]);
+
+    useEffect(() => {
+        if (data?.data?.length > 0) {
+            console.log('first useeffect, ' ,data?.data)
+            setLeads(data.data);
+        }
+    }, [data]);
+
       useEffect(() => {
         if (messages && messages.length > 0) {
           // Get the latest message (assuming messages is an array)
@@ -83,20 +106,8 @@ function Leads() {
         }
       }, [messages]);
 
-    console.log(leads)
 
-    useEffect(() => {
-        if (data?.data?.length > 0) {
-            setLeads((prev) => {
-                // Filter out any items already in the state to prevent duplication
-                const newLeads = data.data.filter(
-                    (newLead) => !prev.some((lead) => lead.sys_id === newLead.sys_id)
-                );
-                return [...prev, ...newLeads];
-            });
-        }
-    }, [data]);
-    console.log(leads)
+
 
     function editModalOpen(data){
         console.log(data)
@@ -115,27 +126,35 @@ function Leads() {
         setIsDeleting(true);
         try {
             const leadToDelete = data.data[index];
-            await deletePaintings({ _id: leadToDelete.sys_id }).unwrap();
-      if(!isnotLoading) {
-        dispatch(showNotification({ message: "Painting Deleted Successfully!", status: 1 }));
-        closeModal()
-      }
-           
-        closeModal()
-      }
-         /*   const response = await axios.delete(`/paintings/${leadToDelete.sys_id}`);
-            if (response.status === 200) {
-                // setLeads((prevLeads) => prevLeads.filter((_, i) => i !== index));
-                dispatch(showNotification({ message: "Painting Deleted Successfully!", status: 1 }));
+            const res = await deletePaintings({ _id: leadToDelete.sys_id }).unwrap();
+            if(res.success){
+                dispatch(
+                    showNotification({
+                        message: "Painting deleted successfully",
+                        status: 1,
+                    })
+                );
+                // Update the array without mutating
+                const updatedData = data.data.filter((_, i) => i !== index);
+
+                // Update leads as an array, not an object
+                setLeads(updatedData);
             }
-        }*/ catch (error) {
-            //setDeleteMessage("Failed to delete painting. Please try again.");
-            dispatch(showNotification({ message: "Failed to delete painting. Please try again. \n Check the Help Page for more explanation.", status: 0 }));
+
+        } catch (error) {
+            console.error(error);
+            dispatch(
+                showNotification({
+                    message: "Failed to delete painting. Please try again.",
+                    status: 0,
+                })
+            );
         } finally {
             setIsDeleting(false);
             setConfirmDeleteIndex(null); // Reset confirmation
         }
     };
+
 
     // Handle editing a lead
     const handleEditLead = (data) => {
@@ -206,7 +225,7 @@ const Status = ({ icon, label, explanation }) => (
                     {leads.map((lead, index) => (
                         <div
                             key={index}
-                            className="card bg-base-100 shadow-xl p-4 flex flex-col justify-between
+                            className="card bg-base-100 shadow-xl  flex flex-col justify-between
                              p-4 bg-white rounded-lg shadow-md space-y-2 dark:bg-[#1f2937]  dark: text-white">
                             <div className={ "text-black  dark:text-white" }>
                                 <img
@@ -286,7 +305,7 @@ const Status = ({ icon, label, explanation }) => (
                                                         <span>{isDeleting ? "Deleting..." : "Delete"}</span>
                                                     </button>
                                                 </div>
-                                                <div className="pl-4">
+                                                <div >
                                                     <button
                                                         className="flex items-center space-x-2 text-blue-500 border border-blue-500 rounded-md px-3 py-1 hover:bg-blue-100 transition duration-200 underline"
                                                         onClick={() => handleMoreInfo(lead)}
