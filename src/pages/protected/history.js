@@ -197,19 +197,19 @@ function Charts() {
                         <table className="table-auto w-full text-left border-collapse border border-gray-200">
                             <thead>
                                 <tr className="bg-gray-100 text-gray-800">
-                                    <th className="border border-gray-300 px-4 py-2">Painting Name</th>
-                                    <th className="border border-gray-300 px-4 py-2">Number of Views</th>
-                                    <th className="border border-gray-300 px-4 py-2">Time Viewed (Seconds)</th>
+                                    <th className="border border-gray-300 px-2 py-2">Painting Name</th>
+                                    <th className="border border-gray-300 px-2 py-2">Number of Views</th>
+                                    <th className="border border-gray-300 px-2 py-2">Time Viewed (Seconds)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.map((painting) => (
                                     <tr key={painting.name} className="hover:bg-gray-50">
-                                        <td className="border border-gray-300 px-4 py-2">{painting.name}</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-blue-500 font-medium">
+                                        <td className="border border-gray-300 px-2 py-2">{painting.name}</td>
+                                        <td className="border border-gray-300 px-2 py-2 text-blue-500 font-medium">
                                             {painting.totalViews}
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-green-500 font-medium">
+                                        <td className="border border-gray-300 px-2 py-2 text-green-500 font-medium">
                                             {painting.totalViewDuration}
                                         </td>
                                     </tr>

@@ -16,11 +16,6 @@ function LeftSidebar() {
   const close = () => {
     document.getElementById("left-sidebar-drawer").click();
   };
-  const sidebarButtonClass = `
-  group flex items-center space-x-3 py-3 px-4 rounded-md border 
-  shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-`;
-
 
   return (
     <div className="drawer-side z-30">
@@ -46,27 +41,26 @@ function LeftSidebar() {
 
         {/* Sidebar Routes */}
         {routes.map((route, k) => (
-  <li key={k}>
-    {route.submenu ? (
-      <SidebarSubmenu
-        {...route}
-        buttonClass={sidebarButtonClass} // Pass shared class
-      />
-    ) : (
-      <NavLink
-        end
-        to={route.path}
-        className={({ isActive }) =>
-          `${sidebarButtonClass} ${
-            isActive
-              ? "bg-blue-500 text-white font-bold border-blue-500"
-              : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"
-          }`
-        }
-      >
-        <span>{route.icon}</span>
-        <span className="text-md font-medium">{route.name}</span>
-      </NavLink>
+          <li className="" key={k}>
+            {route.submenu ? (
+              <SidebarSubmenu {...route} />
+            ) : (
+              <NavLink
+  end
+  to={route.path}
+  className={({ isActive }) =>
+    `group flex items-center space-x-3 py-3 px-4 rounded-md border 
+    ${
+      isActive
+        ? "bg-blue-500 text-white font-bold border-blue-500"
+        : "bg-white text-gray-800 border-gray-300 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-600"
+    }
+    shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`
+  }
+>
+  <span>{route.icon}</span>
+  <span className="text-md font-medium">{route.name}</span>
+</NavLink>
 
             )}
           </li>
