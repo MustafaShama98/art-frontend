@@ -7,6 +7,7 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
     const location = useLocation();
     const [isExpanded, setIsExpanded] = useState(false);
     const navigate = useNavigate();
+    /** Open Submenu list if path found in routes, this is for directly loading submenu routes first time */
 
     const sidebarButtonClass = `
         group flex items-center space-x-4 py-3 px-11 rounded-md border 
@@ -17,15 +18,17 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
         if (submenu.some((m) => m.path === location.pathname)) {
             setIsExpanded(true);
         } else {
-            setIsExpanded(false);
+            setIsExpanded(false); // Close submenu when route doesn't match
         }
     }, [submenu, location.pathname]);
 
-    function redirect() {
-        setIsExpanded(!isExpanded);
-        navigate('/admin/Livecharts');
-    }
+    function redirect (){
+        setIsExpanded(!isExpanded)
+        console.log("here")
 
+            navigate('/admin/Livecharts');
+
+    }
     return (
         <div className="flex flex-col "
               style={{ marginLeft: '-17px' }}

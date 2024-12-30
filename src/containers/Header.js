@@ -59,19 +59,21 @@ function Header() {
     <>
       <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md">
         {/* Menu Toggle for Mobile View */}
-        <div className="flex-1">
-          <label htmlFor="left-sidebar-drawer" className="btn btn-primary drawer-button lg:hidden">
-            <Bars3Icon className="h-5 w-5" />
-          </label>
-          <h1 className="text-2xl font-semibold ml-2">{pageTitle}</h1>
-        </div>
-
+        <div className="flex-1 flex items-center">
+    <label
+      htmlFor="left-sidebar-drawer"
+      className="btn btn-primary drawer-button bg-blue-500 hover:bg-blue-600 text-black lg:hidden"
+    >
+      <Bars3Icon className="h-5 w-5" />
+    </label>
+    <h1 className="text-2xl font-semibold ml-2">{pageTitle}</h1>
+  </div>
         {/* Right-Side Elements */}
         <div className="flex-none flex items-center gap-4">
             {/* Light/Dark Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="btn btn-ghost btn-circle hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="btn btn-ghost btn-circle hover:bg-gray-200 dark:hover:bg-gray-700  transition-colors"
           >
             {currentTheme === "dark" ? (
               <MoonIcon className="h-6 w-6 text-gray-400" />
