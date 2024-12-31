@@ -16,7 +16,7 @@ function Layout(){
   useEffect(() => {
       if(newNotificationMessage !== ""){
           if(newNotificationStatus === 1)NotificationManager.success(newNotificationMessage, 'Success', 5000)
-          if(newNotificationStatus === 0)NotificationManager.error( newNotificationMessage, 'Error', 5000)
+          if(newNotificationStatus === 0)NotificationManager.error( newNotificationMessage, 'Error', 7000)
           dispatch(removeNotificationMessage())
       }
   }, [newNotificationMessage])

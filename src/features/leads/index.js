@@ -15,7 +15,7 @@ import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
 import useWebSocketHook from '../../utils/useWebSocketHook';
 import  StoppedIcon  from "./icons/stopped.svg";
 import  RunningIcon  from "./icons/running.svg";
-
+import  LoadingIcon  from "./icons/loading.svg";
 const TopSideButtons = ({ fetchLeads }) => {
     const dispatch = useDispatch();
 
@@ -271,9 +271,33 @@ const Status = ({ icon, label, explanation }) => (
                                             explanation={lead.sensor ? "A person is being detected by the sensor." : "No person detected by the sensor."}
                                           />
                                           <Status
-                                            icon={lead.wheelchair ? RunningIcon : StoppedIcon}
+                                            icon={
+                                                (() => {
+                                                    console.log('lead.wheelchair', lead.wheelchair)
+                                                    switch (lead.wheelchair) {
+                                                        case 0:
+                                                          return   StoppedIcon ;
+                                                        case 1:
+                                                            return LoadingIcon ; 
+                                                        case 2:
+                                                            return RunningIcon ; 
+                                                        
+                                                    }
+                                                })()
+                                            }
                                             label="Wheelchair"
-                                            explanation={lead.wheelchair ? "A person in a wheelchair has been detected." : "No wheelchair user detected."}
+                                            explanation={
+                                                (() => {
+                                                    switch (lead.wheelchair) {
+                                                        case 0:
+                                                            return "No wheelchair user detected.";
+                                                        case 1:
+                                                            return "Detecting a wheelchair user.";
+                                                        case 2:
+                                                            return "A person in a wheelchair has been detected.";
+                                                    }
+                                                })()
+                                            }
                                           />
                                           <Status
                                             icon={lead.height_adjust ? RunningIcon : StoppedIcon}

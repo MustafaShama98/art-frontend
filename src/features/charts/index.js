@@ -13,8 +13,10 @@ function Charts() {
     const navigate = useNavigate(); // Initialize useNavigate
     const { data, isLoading, isError } = useGetPaintingStatsQuery();
     const [dateValue, setDateValue] = useState({
-        startDate: new Date(new Date().setDate(new Date().getDate() - 7)), // 1 week prior
+        startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // Start of the current month
         endDate: new Date(), // Current date
+        
+
     });
 
     const handleDatePickerValueChange = (newValue) => {

@@ -10,13 +10,14 @@ import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import Delete from '../protected/Photos/SuccessDelete.png';
 import Confirm from '../protected/Photos/confirm.png';
 import FailedDelete from '../protected/Photos/failed delete.png';
-import  StoppedIcon  from "../../features/leads/icons/stopped.svg";
-import  RunningIcon  from "../../features/leads/icons/running.svg";
+import StoppedIcon  from "../../features/leads/icons/stopped.svg";
+import RunningIcon  from "../../features/leads/icons/running.svg";
+import LoadingIcon from "../../features/leads/icons/loading.svg";
 import ArrowDownTrayIcon from '@heroicons/react/24/outline/ArrowDownTrayIcon';
 import selectdate from '../protected/Photos/select date.png';
 function InternalPage() {
     const dispatch = useDispatch();
-
+  
     useEffect(() => {
         dispatch(setPageTitle({ title: "Help" }));
     }, []);
@@ -59,7 +60,7 @@ function InternalPage() {
                     <strong>Height (cm), Width (cm), Weight (kg) *</strong>: Enter the physical dimensions and weight of the painting. <span className="text-red-500">(Needed)</span>
                 </li>
                 <li>
-                    <strong>Microcontroller</strong>: Enter the microcontroller type to link the painting to the automated height adjustment system. <span className="text-gray-500">(Optional, can be added later)</span>
+                    <strong>Microcontroller</strong>: Enter the microcontroller Model to link the painting to the automated height adjustment system. <span className="text-gray-500">(Optional, can be added later)</span>
                 </li>
                 <li>
                     <strong>Upload Photo</strong>: Upload an image of the painting. <span className="text-gray-500">(Optional, can be added later)</span>
@@ -97,11 +98,11 @@ function InternalPage() {
                 <strong>Installation Failed - Timeout:</strong> Check the backend server status and verify that it is functioning correctly.
             </li>
             <li>
-                <strong>Microcontroller Not Found:</strong> Verify that the microcontroller ID is correct and available for linking.
-            </li>
-            <li>
-                <strong>Microcontroller Issues:</strong> Ensure the microcontroller is powered on and not already assigned to another painting.
-            </li>
+    <strong>Microcontroller Error:</strong> Verify that the microcontroller Model is correct, ensure it is powered on, available for linking, and not already assigned to another painting.
+</li>
+
+
+             
         </ul>
     </details>
 </div>
@@ -211,6 +212,7 @@ function InternalPage() {
         <p className="mt-4">
             If the painting cannot be deleted, here are some potential error messages and their resolutions:
         </p>
+        
         <img
             src={FailedDelete} 
             alt="Failed Message"
@@ -264,14 +266,14 @@ function InternalPage() {
                         <strong>Height Adjustment:</strong>
                         <span className="text-gray-500"> Calculated using the formula:</span>
                         <div className="bg-gray-100 dark:bg-gray-900 p-2 rounded-md mt-2 text-sm">
-                            Height Adjustment = Base Height - ((Height / 2) + 122) cm
+                            Height Adjustment = Base Height - ((Height / 2) + 130) cm
                         </div>
                         <p className="mt-2">
                             This formula adjusts the painting's height to match the average eye level of a person for comfortable and accessible viewing.
                             <ul className="list-disc list-inside mt-2">
                                 <li><strong>Base Height:</strong> The initial height where the painting is placed.</li>
                                 <li><strong>Height / 2:</strong> Calculates the middle point of the painting's height.</li>
-                                <li><strong>122 cm:</strong> Represents the average eye level from the ground.</li>
+                                <li><strong>130 cm:</strong> Represents the average eye level from the ground.</li>
                             </ul>
                             <p className="mt-2">
     <span className="text-red-500">
@@ -397,6 +399,16 @@ function InternalPage() {
                 <p className="mt-2">
                     Monitors whether a wheelchair user has been detected:
                     <ul className="list-disc list-inside pl-6 mt-2">
+                    <li className="flex items-center space-x-2">
+                        <img
+            src={LoadingIcon}
+            alt={`LoadingIcon`}
+            className="w-6 h-6"
+        />
+                            <span className="text-black-500 font-medium">
+                            Detecting a wheelchair user.
+                            </span>
+                        </li>
                         <li className="flex items-center space-x-2">
                         <img
             src={RunningIcon}
@@ -407,6 +419,10 @@ function InternalPage() {
                                 A wheelchair user is detected. The system will adjust the painting height accordingly.
                             </span>
                         </li>
+                        
+
+
+                        
                         <li className="flex items-center space-x-2">
                         <img
             src={StoppedIcon}

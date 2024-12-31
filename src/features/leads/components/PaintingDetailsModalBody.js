@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const PaintingDetailsModalBody = ({ closeModal, extraObject }) => {
-    const height_adjustt = extraObject.base_height - ((extraObject.height / 2) + 122);
+    const height_adjustt = extraObject.base_height - ((extraObject.height / 2) + 130);
 
     return (
         <div className="space-y-3">
