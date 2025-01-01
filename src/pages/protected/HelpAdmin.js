@@ -263,24 +263,26 @@ function InternalPage() {
                     <li><strong>Weight:</strong> The weight of the painting in kg.</li>
                     <li><strong>Microcontroller:</strong> The microcontroller Type.</li>
                     <li>
-                        <strong>Height Adjustment:</strong>
-                        <span className="text-gray-500"> Calculated using the formula:</span>
-                        <div className="bg-gray-100 dark:bg-gray-900 p-2 rounded-md mt-2 text-sm">
-                            Height Adjustment = Base Height - ((Height / 2) + 130) cm
-                        </div>
-                        <p className="mt-2">
-                            This formula adjusts the painting's height to match the average eye level of a person for comfortable and accessible viewing.
-                            <ul className="list-disc list-inside mt-2">
-                                <li><strong>Base Height:</strong> The initial height where the painting is placed.</li>
-                                <li><strong>Height / 2:</strong> Calculates the middle point of the painting's height.</li>
-                                <li><strong>130 cm:</strong> Represents the average eye level from the ground.</li>
-                            </ul>
-                            <p className="mt-2">
+                    <strong>Height Adjustment:</strong>
+<span className="text-gray-500"> Calculated using the formula:</span>
+<div className="bg-gray-100 dark:bg-gray-900 p-2 rounded-md mt-2 text-sm">
+    Height Adjustment = (Base Height + (Height / 2)) - Average Eye Level (cm)
+</div>
+<p className="mt-2">
+    This formula adjusts the painting's height to match the average eye level of a person for comfortable and accessible viewing.
+    <ul className="list-disc list-inside mt-2">
+        <li><strong>Base Height:</strong> The distance from the floor to the bottom edge of the painting.</li>
+        <li><strong>Height / 2:</strong> Calculates the middle point of the painting's height.</li>
+        <li><strong>Average Eye Level:</strong> Represents the typical eye level of a person in a wheelchair (e.g., 119.25 cm).</li>
+    </ul>
+</p>
+<p className="mt-2">
     <span className="text-red-500">
-        If the adjustment value is "No Adjust," it means the painting's height cannot be adjusted for optimal viewing.
+        If the adjustment value is "No Adjust," it means the painting's height is already optimal for viewing.
     </span>
 </p>
-                        </p>
+
+                       
                     </li>
                     <li>
                         <strong>Optimal Viewing Distance:</strong>
