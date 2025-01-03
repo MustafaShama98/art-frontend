@@ -265,8 +265,8 @@ const Status = ({ icon, label, explanation }) => (
                                       label="System Status"
                                       explanation={
                                         lead.status === "Active"
-                                          ? "The system is running and fully operational."
-                                          : "The system is shut down and not operational."
+                                          ? "The system is running."
+                                          : "The system is turned off."
                                       }
                                     />
 
