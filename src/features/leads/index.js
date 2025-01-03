@@ -93,6 +93,12 @@ function Leads() {
             setLeads((prevLeads) =>
                 prevLeads.map((painting) => {
                     if (painting.sys_id === latestMessage.sys_id) {
+                        if(latestMessage.status){
+                            return {
+                                ...painting,
+                                status: latestMessage.status
+                            }
+                        }else
                         return {
                             ...painting,
                             wheelchair: latestMessage.wheelchair,
