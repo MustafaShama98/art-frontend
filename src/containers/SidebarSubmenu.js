@@ -10,9 +10,10 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
     /** Open Submenu list if path found in routes, this is for directly loading submenu routes first time */
 
     const sidebarButtonClass = `
-        group flex items-center space-x-4 py-3 px-11 rounded-md border 
-        shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-    `;
+    w-full group flex items-center space-x-4 py-3 px-4 rounded-md border 
+    shadow-sm transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+`;
+
 
     useEffect(() => {
         if (submenu.some((m) => m.path === location.pathname)) {
@@ -31,7 +32,8 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
     }
     return (
         <div className="flex flex-col "
-              style={{ marginLeft: '-17px' }}
+              // style={{ marginLeft: '-17px' }}
+             style={{ paddingLeft: 0, paddingRight: 0 }}
         >
             <div
 
@@ -45,14 +47,14 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
                 <span className="flex-shrink-0">{icon}</span>
                 <span className="text-md font-medium flex-grow">{name}</span>
                 <ChevronDownIcon
-                    className={`w-5 h-5 ml-auto transform transition-transform duration-500 ${
+                    className={`w-5 h-5 ml-auto  transform transition-transform duration-500 ${
                         isExpanded ? "rotate-180" : ""
                     }`}
                 />
             </div>
 
             {isExpanded && (
-                <ul className="menu menu-compact bg-white rounded-md mt-1 shadow-sm border border-gray-300">
+                <ul className="menu menu-compact bg-white rounded-md mt-1 shadow-sm border border-gray-300 ">
                     {submenu.map((m, k) => {
                         const isActive = location.pathname === m.path;
                         return (
