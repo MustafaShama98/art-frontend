@@ -7,7 +7,6 @@ import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
 import { PresentationChartLineIcon } from '@heroicons/react/24/outline';
 
 const iconClasses = `h-6 w-6`
-
 const submenuIconClasses = `h-5 w-5`
 const AdminSidebar = [
  
@@ -22,10 +21,10 @@ const AdminSidebar = [
   },
   
   {
-     path: '/admin/charts', // url
+   path: '/admin/charts', // url
    icon: <ChartBarIcon className={iconClasses}/>, // icon component
-    name: 'Analytics', // name that appear in Sidebar
-    submenu : [ 
+   name: 'Analytics', // name that appear in Sidebar
+   submenu : [ 
       {
           path: '/admin/Livecharts',
           icon: <PresentationChartLineIcon  className={submenuIconClasses}/>,
@@ -35,10 +34,7 @@ const AdminSidebar = [
         path: '/admin/history',
         icon: <ArchiveBoxIcon className={submenuIconClasses}/>,
         name: 'History',
-      },
-
-      
-       
+      },   
     ]
    },
    {    path: '/admin/HelpAdmin', // url

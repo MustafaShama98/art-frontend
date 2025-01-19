@@ -47,7 +47,7 @@ function SidebarSubmenu({ submenu, name, icon },buttonClass) {
                 <span className="flex-shrink-0">{icon}</span>
                 <span className="text-md font-medium flex-grow">{name}</span>
                 <ChevronDownIcon
-                    className={`w-5 h-5 ml-auto  transform transition-transform duration-500 ${
+                    className={`w-5 h-5 ml-auto transform transition-transform duration-500 ${
                         isExpanded ? "rotate-180" : ""
                     }`}
                 />

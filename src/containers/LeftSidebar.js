@@ -49,7 +49,7 @@ function LeftSidebar() {
   end
   to={route.path}
   className={({ isActive }) =>
-    `group flex space-x-3 py-3 px-4 rounded-md border 
+    `group flex items-center space-x-3 py-3 px-4 rounded-md border 
     ${
       isActive
         ? "bg-blue-500 text-white font-bold border-blue-500"

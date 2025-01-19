@@ -60,10 +60,10 @@ function InternalPage() {
                     <strong>Height (cm), Width (cm), Weight (kg) *</strong>: Enter the physical dimensions and weight of the painting. <span className="text-red-500">(Needed)</span>
                 </li>
                 <li>
-                    <strong>Microcontroller</strong>: Enter the microcontroller Model to link the painting to the automated height adjustment system. <span className="text-gray-500">(Optional, can be added later)</span>
+                    <strong>Microcontroller</strong>: Enter the microcontroller Model to link the painting to the automated height adjustment system. <span className="text-gray-500">(Optional)</span>
                 </li>
                 <li>
-                    <strong>Upload Photo</strong>: Upload an image of the painting. <span className="text-gray-500">(Optional, can be added later)</span>
+                    <strong>Upload Photo</strong>: Upload an image of the painting. <span className="text-gray-500">(Optional)</span>
                 </li>
             </ul>
             <li> Click <strong>Save</strong> to add the painting to the system, or click <strong>Cancel</strong> to discard the entry and exit without saving.</li>

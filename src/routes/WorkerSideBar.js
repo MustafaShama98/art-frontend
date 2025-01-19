@@ -1,5 +1,4 @@
 
-import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
 import  QuestionMarkCircleIcon  from '@heroicons/react/24/outline/QuestionMarkCircleIcon'; // Import Help Icon
 import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import HomeIcon  from '@heroicons/react/24/outline/HomeIcon';
