@@ -123,9 +123,6 @@ function InternalPage() {
             </li>
             <li> Modify the fields in the form, including information about the painting such as dimensions, name, painter name, or system status (Active/Inactive).</li>
             <ul className="list-disc list-inside pl-6 mb-4">
-                <li>
-                    <strong>System Status:</strong> Change the painting's status to <strong> Active or Inactive </strong> depending on availability.
-                </li>
             </ul>
             <li> Click <strong>Save</strong> to apply the changes, or click <strong>Cancel</strong> to discard the edits and exit the editing mode.</li>
             <li>

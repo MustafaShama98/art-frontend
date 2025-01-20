@@ -14,7 +14,7 @@ const INITIAL_PAINTING_OBJ = {
   weight:"",
   photo: null,
   microcontroller:"",
-  status: "Active", // Default status
+  
 };
 
 function EditPaintingModalBody({ closeModal, extraObject }) {
@@ -42,14 +42,7 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
         closeModal()
       }
 
-      // const response = await axios.put(`/paintings/${paintingObj.sys_id}`, newObj);
-
-      // if (response.status === 200) {
-      //   dispatch(showNotification({ message: "Painting Updated Successfully!", status: 1 }));
-      //   closeModal();
-      // } else {
-      //   alert("Failed to save changes. Please try again.");
-      // }
+      
     } catch (error) {
       dispatch(showNotification({ message: "Failed to save painting. Please try again. \n  Check the Help Page for more explanation.", status: 0 }));
     ;
@@ -126,19 +119,15 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
         updateFormValue={updateFormValue}
       />
      {/* Status Selection Box */}
-<div className="mt-4">
-  <label className="block text-sm font-medium text-gray-700">Change Status</label>
+     <div className="mt-4">
+  <label className="block text-sm font-medium text-gray-700">Status</label>
   <div className="mt-2">
-    <select
-      value={status || "Active"}
-      onChange={(e) => updateFormValue({ updateType: "status", value: e.target.value })}
-      className="block w-full border border-gray-300 rounded-md py-2 px-3 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-    >
-      <option value="Active">Active</option>
-      <option value="Inactive">Inactive</option>
-    </select>
+    <p className="text-gray-700 py-2 px-3 border border-gray-300 rounded-md bg-gray-100">
+      {status || "Active"}
+    </p>
   </div>
 </div>
+
 
 {/* Loading or Error Message */}
 {loading ? (
