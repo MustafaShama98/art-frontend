@@ -16,6 +16,7 @@ import useWebSocketHook from '../../utils/useWebSocketHook';
 import  StoppedIcon  from "./icons/stopped.svg";
 import  RunningIcon  from "./icons/running.svg";
 import  LoadingIcon  from "./icons/loading.svg";
+import SelectBox from "../../components/Input/SelectBox";
 const TopSideButtons = ({ fetchLeads }) => {
     const dispatch = useDispatch();
 
@@ -195,25 +196,97 @@ function Leads() {
     
 
     {/* Define Status Inline */}
-const Status = ({ icon, label, explanation }) => (
-    <div
+    const Status = ({ icon, label, explanation , sys_id}) => {
 
-        className=" flex items-center gap-2 p-1 rounded-lg bg-gray-50 shadow border"
-        style={{borderColor: '#ddd'}}
-        >
-        {/* Icon */}
-        <img
-            src={icon}
-            alt={`${label} Icon`}
-            className="w-6 h-6"
-        />
-        {/* Label and Explanation */}
-        <div>
-            <p className="font-semibold text-gray-800 text-sm sm:text-base">{label}</p>
-            <p className="text-gray-500 text-xs sm:text-sm">{explanation}</p>
-        </div>
-    </div>
-);
+           // Function to handle API calls based on the selected option
+    const handleSelectChange = async ({ updateType, value }) => {
+        console.log(`Selected option for ${updateType}: ${value}`);
+
+        try {
+            if (value === 'active') {
+                await axios.post(`/paintings/${sys_id}/active`, { status: 'active' });
+                console.log('System activated via API');
+            } else if (value === 'shutdown') {
+                await axios.post(`/paintings/${sys_id}/shutdown`, { status: 'shutdown' });
+                console.log('System deactivated via API');
+            } else if (value === 'restart') {
+                await axios.post(`/paintings/${sys_id}/restart`, { status: 'restart' });
+                console.log('System set to restart via API');
+            } else if (value === 'stop') {
+                await axios.post(`/paintings/${sys_id}/stop_program`, { status: 'stop' });
+                console.log('System set to restart via API');
+            } else if (value === 'start') {
+                await axios.post(`/paintings/${sys_id}/start_program`, { status: 'start' });
+                console.log('System set to restart via API');
+            } else {
+                console.log('Unhandled option:', value);
+            }
+        } catch (error) {
+            console.error('Error while making API call:', error);
+        }
+    };
+        // Check if the label is "System Status"
+        const isSystemStatus = label === "System Status";
+        const RestartIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
+            </svg>
+        );
+        
+        
+        return (
+            <div
+                className={`p-2 rounded-lg bg-gray-50 shadow border ${
+                    isSystemStatus ? "grid grid-cols-3 gap-2 items-center" : "flex items-center gap-2"
+                }`}
+                style={{ borderColor: '#ddd' }}
+            >
+                {/* Column 1: Icon and Labels */}
+                <div className={isSystemStatus ? "flex items-center col-span-2 gap-2" : "flex items-center gap-2"}>
+                    {/* Icon */}
+                    <img src={icon} alt={`${label} Icon`} className="w-6 h-6" />
+    
+                    {/* Labels */}
+                    <div>
+                        <p className="font-semibold text-gray-800 text-sm sm:text-base">{label}</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">{explanation}</p>
+                    </div>
+                </div>
+    
+                {/* Column 2: SelectBox (Only for "System Status") */}
+                {isSystemStatus && (
+                    <div className = {"flex item-center"}>
+                        <SelectBox
+                            // labelTitle="Select Status"
+                            // labelDescription="Choose a status for the system"
+                            defaultValue=""
+                            containerStyle="w-min"
+                            // placeholder="Choose a status..."
+                            labelStyle="text-gray-700 font-medium"
+                            icon= {<RestartIcon/>}
+
+                            options={[
+                             
+                                // { name: 'Stop Program', value: 'stop' },
+                                { name: "Choose a status...", value: '---' },
+                                { name: 'Shutdown MicroController', value: 'shutdown' },
+                                { name: 'Restart MicroController', value: 'restart' },
+                                { name: 'Re/Start Program', value: 'start' },
+                            ]}
+                            updateType="status"
+                            updateFormValue={(newValue) =>{
+                                  console.log('Updated Form Value:', newValue)
+                                handleSelectChange(newValue)
+                            }
+                              
+                            }
+                        />
+                    </div>
+                )}
+            </div>
+        );
+    };
+    
 
     return (
         <>
@@ -266,9 +339,10 @@ const Status = ({ icon, label, explanation }) => (
                                       label="System Status"
                                       explanation={
                                         lead.status === "Active"
-                                          ? "The system is running."
+                                          ? "The system is online."
                                           : "The system is turned off."
                                       }
+                                      sys_id = {lead.sys_id}
                                     />
 
                                           {/* Other Status  */}
