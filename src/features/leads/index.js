@@ -96,7 +96,8 @@ function Leads() {
                         if(latestMessage.status){
                             return {
                                 ...painting,
-                                status: latestMessage.status
+                                status: latestMessage.status,
+                                sensor: latestMessage.sensor
                             }
                         }else
                         return {
@@ -274,7 +275,7 @@ const Status = ({ icon, label, explanation }) => (
                                           <Status
                                             icon={lead.sensor ? RunningIcon : StoppedIcon}
                                             label="Sensor"
-                                            explanation={lead.sensor ? "A person is being detected by the sensor." : "No person detected by the sensor."}
+                                            explanation={lead.sensor ? "A person is detected by the sensor." : "No person detected by the sensor."}
                                           />
                                           <Status
                                             icon={
