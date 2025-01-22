@@ -15,9 +15,11 @@ import RunningIcon  from "../../features/leads/icons/running.svg";
 import LoadingIcon from "../../features/leads/icons/loading.svg";
 import ArrowDownTrayIcon from '@heroicons/react/24/outline/ArrowDownTrayIcon';
 import selectdate from '../protected/Photos/select date.png';
+import status from '../protected/Photos/Status.png';
+import menuButton from '../protected/Photos/button.png';
 function InternalPage() {
     const dispatch = useDispatch();
-  
+   
     useEffect(() => {
         dispatch(setPageTitle({ title: "Help" }));
     }, []);
@@ -326,27 +328,69 @@ function InternalPage() {
                     Displays the overall status of the system:
                     <ul className="list-disc list-inside pl-6 mt-2">
                         <li className="flex items-center space-x-2">
-                        <img
-            src={RunningIcon}
-            alt={`RunningIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={RunningIcon}
+                                alt={`RunningIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 The system is running and fully operational.
                             </span>
                         </li>
                         <li className="flex items-center space-x-2">
-                        <img
-            src={StoppedIcon}
-            alt={`StoppedIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={StoppedIcon}
+                                alt={`StoppedIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 The system is not operational. Check for network or backend connectivity issues.
                             </span>
                         </li>
                     </ul>
                 </p>
+               
+
+<div className="text-center my-4">
+            
+        </div>
+        <div className="flex items-center space-x-4 mt-2">
+    {/* Text and Button Image */}
+    <p>
+        Next to the System Status A menu button allows staff to perform additional actions
+    </p>
+    <img
+        src={menuButton} // Replace with the actual path to your menu button image
+        alt="menu button"
+        className="w-10 h-10 object-contain"
+    />
+</div>
+
+<p className="mt-2">
+    This is the menu:
+</p>
+
+<div className="text-center my-4">
+    {/* Status Image */}
+    <img
+        src={status} 
+        alt="status"
+        className="w-40 h-28 object-contain rounded-lg shadow-md"
+    />
+</div>
+
+<ul className="list-disc list-inside pl-6 mt-2">
+    <li>
+        <strong>Shutdown MicroController:</strong> Safely powers off the microcontroller to prevent data loss or hardware damage.
+    </li>
+    <li>
+        <strong>Restart MicroController:</strong> Reboots the microcontroller to refresh all processes and resolve temporary issues.
+    </li>
+    <li>
+        <strong>Re/Start Program:</strong> Restarts the running program without rebooting the hardware, allowing quick recovery and ensuring minimal downtime.
+    </li>
+</ul>
+
             </li>
             <li className="mt-4">
                 <strong>Sensor:</strong>
@@ -354,21 +398,21 @@ function InternalPage() {
                     Indicates whether the sensor detects a person within the painting's **Optimal Viewing Distance**:
                     <ul className="list-disc list-inside pl-6 mt-2">
                         <li className="flex items-center space-x-2">
-                        <img
-            src={RunningIcon}
-            alt={`RunningIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={RunningIcon}
+                                alt={`RunningIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 A person is detected within the optimal viewing distance.
                             </span>
                         </li>
                         <li className="flex items-center space-x-2">
-                        <img
-            src={StoppedIcon}
-            alt={`StoppedIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={StoppedIcon}
+                                alt={`StoppedIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 No person is detected within the optimal viewing distance.
                             </span>
@@ -398,36 +442,32 @@ function InternalPage() {
                 <p className="mt-2">
                     Monitors whether a wheelchair user has been detected:
                     <ul className="list-disc list-inside pl-6 mt-2">
-                    <li className="flex items-center space-x-2">
-                        <img
-            src={LoadingIcon}
-            alt={`LoadingIcon`}
-            className="w-6 h-6"
-        />
+                        <li className="flex items-center space-x-2">
+                            <img
+                                src={LoadingIcon}
+                                alt={`LoadingIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
-                            Detecting a wheelchair user.
+                                Detecting a wheelchair user.
                             </span>
                         </li>
                         <li className="flex items-center space-x-2">
-                        <img
-            src={RunningIcon}
-            alt={`RunningIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={RunningIcon}
+                                alt={`RunningIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 A wheelchair user is detected. The system will adjust the painting height accordingly.
                             </span>
                         </li>
-                        
-
-
-                        
                         <li className="flex items-center space-x-2">
-                        <img
-            src={StoppedIcon}
-            alt={`StoppedIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={StoppedIcon}
+                                alt={`StoppedIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 No wheelchair user is detected.
                             </span>
@@ -441,21 +481,21 @@ function InternalPage() {
                     Displays the status of the height adjustment process:
                     <ul className="list-disc list-inside pl-6 mt-2">
                         <li className="flex items-center space-x-2">
-                        <img
-            src={RunningIcon}
-            alt={`RunningIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={RunningIcon}
+                                alt={`RunningIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 Height adjustment is in progress.
                             </span>
                         </li>
                         <li className="flex items-center space-x-2">
-                        <img
-            src={StoppedIcon}
-            alt={`StoppedIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={StoppedIcon}
+                                alt={`StoppedIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 No height adjustments are currently in progress.
                             </span>

@@ -13,6 +13,8 @@ import FailedDelete from '../protected/Photos/failed delete.png';
 import LoadingIcon from "../../features/leads/icons/loading.svg";
 import  StoppedIcon  from "../../features/leads/icons/stopped.svg";
 import  RunningIcon  from "../../features/leads/icons/running.svg";
+import status from '../protected/Photos/Status.png';
+import menuButton from '../protected/Photos/button.png';
 function InternalPage() {
     const dispatch = useDispatch();
 
@@ -319,29 +321,71 @@ function InternalPage() {
                     Displays the overall status of the system:
                     <ul className="list-disc list-inside pl-6 mt-2">
                         <li className="flex items-center space-x-2">
-                        <img
-            src={RunningIcon}
-            alt={`RunningIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={RunningIcon}
+                                alt={`RunningIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 The system is running and fully operational.
                             </span>
                         </li>
                         <li className="flex items-center space-x-2">
-                        <img
-            src={StoppedIcon}
-            alt={`StoppedIcon`}
-            className="w-6 h-6"
-        />
+                            <img
+                                src={StoppedIcon}
+                                alt={`StoppedIcon`}
+                                className="w-6 h-6"
+                            />
                             <span className="text-black-500 font-medium">
                                 The system is not operational. Check for network or backend connectivity issues.
                             </span>
                         </li>
                     </ul>
                 </p>
-            </li>
-            <li className="mt-4">
+               
+
+<div className="text-center my-4">
+            
+        </div>
+        <div className="flex items-center space-x-4 mt-2">
+    {/* Text and Button Image */}
+    <p>
+        Next to the System Status A menu button allows staff to perform additional actions
+    </p>
+    <img
+        src={menuButton} // Replace with the actual path to your menu button image
+        alt="menu button"
+        className="w-10 h-10 object-contain"
+    />
+</div>
+
+<p className="mt-2">
+    This  is the menu:
+</p>
+
+<div className="text-center my-4">
+    {/* Status Image */}
+    <img
+        src={status} 
+        alt="status"
+        className="w-40 h-28 object-contain rounded-lg shadow-md"
+    />
+</div>
+
+<ul className="list-disc list-inside pl-6 mt-2">
+    <li>
+        <strong>Shutdown MicroController:</strong> Safely powers off the microcontroller to prevent data loss or hardware damage.
+    </li>
+    <li>
+        <strong>Restart MicroController:</strong> Reboots the microcontroller to refresh all processes and resolve temporary issues.
+    </li>
+    <li>
+        <strong>Re/Start Program:</strong> Restarts the running program without rebooting the hardware, allowing quick recovery and ensuring minimal downtime.
+    </li>
+</ul>
+
+          
+
                 <strong>Sensor:</strong>
                 <p className="mt-2">
                     Indicates whether the sensor detects a person within the painting's **Optimal Viewing Distance**:
