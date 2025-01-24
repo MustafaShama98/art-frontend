@@ -17,6 +17,8 @@ import  StoppedIcon  from "./icons/stopped.svg";
 import  RunningIcon  from "./icons/running.svg";
 import  LoadingIcon  from "./icons/loading.svg";
 import SelectBox from "../../components/Input/SelectBox";
+import CustomDropdown from "../../components/Input/CustomDropdown";
+
 const TopSideButtons = ({ fetchLeads }) => {
     const dispatch = useDispatch();
 
@@ -256,7 +258,7 @@ function Leads() {
                 {/* Column 2: SelectBox (Only for "System Status") */}
                 {isSystemStatus && (
                     <div className = {"flex item-center"}>
-                        <SelectBox
+                        <CustomDropdown
                             // labelTitle="Select Status"
                             // labelDescription="Choose a status for the system"
                             defaultValue=""

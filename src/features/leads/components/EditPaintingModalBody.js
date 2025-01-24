@@ -120,12 +120,12 @@ function EditPaintingModalBody({ closeModal, extraObject }) {
       />
      {/* Status Selection Box */}
      <div className="mt-4">
-  <label className="block text-sm font-medium text-gray-700">Status</label>
+  {/* <label className="block text-sm font-medium text-gray-700">Status</label>
   <div className="mt-2">
     <p className="text-gray-700 py-2 px-3 border border-gray-300 rounded-md bg-gray-100">
       {status || "Active"}
     </p>
-  </div>
+  </div> */}
 </div>
 
 
