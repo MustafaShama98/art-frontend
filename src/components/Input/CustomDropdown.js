@@ -48,12 +48,11 @@ function CustomDropdown(props) {
                 className="relative w-full cursor-pointer"
                 onClick={toggleDropdown}
             >
-                <div className="flex items-center justify-between select select-bordered w-full  pr-8 bg-white border border-gray-300 rounded-md">
+                <div className="flex items-center justify-between select select-bordered w-full  pr-6 bg-white border border-gray-300 rounded-md">
                     <div className="flex items-center">
                         {icon && <div className="mr-2">{icon}</div>}
                         <span>{value || placeholder}</span>
                     </div>
-                    <span className="pointer-events-none">&#9660;</span>
                 </div>
 
                 {isOpen && (
